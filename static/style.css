@@ -5,3 +5,13 @@
 .text-nature:hover{
 	color: #0aad0a;
 }
+
+#passwordToggler2{
+	color:#001e2b;
+	cursor:pointer;
+	font-size:16px;
+	position:absolute;
+	right:20px;
+	top:50%;
+	transform:translateY(-50%)
+}

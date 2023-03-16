@@ -9,27 +9,15 @@ from core.models import User
 
 
 class SigninForm(forms.Form):
-	email = forms.EmailField(required=False, max_length=100, widget=forms.TextInput(attrs={
-		'placeholder':'you@gmail.com',
-	}))
-
-	password = forms.CharField(required=False, max_length=32, widget=forms.PasswordInput(attrs={
-		'placeholder':'your password',
-	}))
-
-	def clean(self):
-		email = self.cleaned_data.get('email')
-		password = self.cleaned_data.get('password')
-		user = User.objects.filter(email=email).first()
-
-		if user:
-			is_auth = user.check_password(password)
-			# is_auth2 = authenticate(username=user.username, password=password)
-			if is_auth:
-				return email
-			raise forms.ValidationError('Invalid Login')
-
-		raise forms.ValidationError('Invalid Login')
+	email = forms.EmailField(required=True, label='', max_length=100,  widget=forms.EmailInput(attrs={
+		'placeholder':'Email', 'class': 'form-control', 'id': 'inputEmail4'
+		}))
+	password = forms.CharField(required=True, label='', max_length=128, widget=forms.PasswordInput(attrs={
+		'placeholder':'Enter Password', 'class': 'form-control', 'id': 'fakePassword'
+		}))
+	remember = forms.CharField(required=False, label='', max_length=128, widget=forms.CheckboxInput(attrs={
+		'class': 'form-check-input', 'value': '', 'id': 'flexCheckDefault'
+		}))
 
 
 class SignupForm(forms.Form):
@@ -82,18 +70,18 @@ class SignupForm(forms.Form):
             
 
 class ForgotPasswordForm(forms.Form):
-	email = forms.EmailField(required=False, max_length=100, widget=forms.TextInput(attrs={
-		'placeholder':'you@gmail.com',
+	email = forms.EmailField(required=True, label='', max_length=100,  widget=forms.EmailInput(attrs={
+		'placeholder':'Email', 'class': 'form-control', 'id': 'inputEmail4'
 		}))
 
 
 class ResetPasswordForm(forms.Form):
-	password = forms.CharField(label='Password', required=False, max_length=100, widget=forms.PasswordInput(attrs={
-		'placeholder':'new password',
+	password = forms.CharField(required=True, label='', max_length=128, widget=forms.PasswordInput(attrs={
+		'placeholder':'Enter Password', 'class': 'form-control', 'id': 'fakePassword'
 		}))
 
-	confirm_password = forms.CharField(label='Confirm', required=False, max_length=100, widget=forms.PasswordInput(attrs={
-		'placeholder':'confirm password',
+	confirm_password = forms.CharField(required=True, label='', max_length=128, widget=forms.PasswordInput(attrs={
+		'placeholder':'Confirm Password', 'class': 'form-control', 'id': 'fakePassword2'
 		}))
 
 	def clean_password(self):
@@ -114,7 +102,7 @@ class ResetPasswordForm(forms.Form):
 		confirm_password = self.cleaned_data.get('confirm_password')
 
 		if password and password != confirm_password:
-			raise forms.ValidationError('The Two Passwords Don\'t match')
+			raise forms.ValidationError('The two passwords don\'t match')
 
 		return confirm_password
             

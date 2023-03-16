@@ -12,8 +12,8 @@ admin.site.unregister(Group)
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    fields = ('name', 'email', 'whatsapp_number', 'password', 'is_superuser', 'is_active', 'is_seller')
-    list_display = ('name', 'email', 'is_superuser', 'is_active', 'is_seller', 'date_joined')
+    fields = ('name', 'email', 'whatsapp_number', 'password', 'is_superuser', 'is_active', 'is_suspended', 'is_seller')
+    list_display = ('name', 'email', 'whatsapp_number', 'is_superuser', 'is_active', 'is_suspended', 'is_seller', 'date_joined')
     order = ('name',)
     search_fields = ('name', 'email')
 
