@@ -7,6 +7,25 @@
             <a class="navbar-brand d-none d-lg-block" href="index.html">
               <img src="{% static 'assets/images/logo/freshcart-logo.svg' %}" alt="eCommerce HTML Template">
             </a>
+<!-- 
+            <div class="d-none d-lg-block">
+              <form action="#">
+                <div class="input-group ">
+                  <input class="form-control rounded" type="search" placeholder="Search for products">
+                  <span class="input-group-append">
+                    <button class="btn bg-white border border-start-0 ms-n10 rounded-0 rounded-end" type="button">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="feather feather-search">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      </svg>
+                    </button>
+                  </span>
+                </div>
+              </form>
+            </div> -->
+            
             <div class="d-flex justify-content-between w-100 d-lg-none">
               <a class="navbar-brand" href="index.html">
                 <img src="{% static 'assets/images/logo/freshcart-logo.svg' %}" alt="eCommerce HTML Template">
@@ -14,21 +33,11 @@
 
               <div class="d-flex align-items-center">
                 {% if request.user.is_authenticated %}
-                <a href="/signout" class="btn btn-sm btn-light me-1">
-                <div class="dropdown">
-                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user">
-                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                    <circle cx="12" cy="7" r="4"></circle>
-                                  </svg>
-                  </button>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                  </div>
-                </div>
-                </a>
+                <a href="/signout" class="btn btn-sm btn-light">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                  </svg></a>
                 {% else %}
                 <a href="/login" class="btn btn-sm btn-light me-1">Login</a>
                 <a href="/signup" class="btn btn-sm btn-dark me-2">Signup</a>
@@ -104,13 +113,9 @@
             </svg></span> All Categories
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-          <li><a class="dropdown-item" href="pages/shop-grid.html">Dairy, Bread & Eggs</a></li>
-          <li><a class="dropdown-item" href="pages/shop-grid.html">Snacks & Munchies</a></li>
-          <li><a class="dropdown-item" href="pages/shop-grid.html">Fruits & Vegetables</a></li>
-          <li><a class="dropdown-item" href="pages/shop-grid.html">Cold Drinks & Juices</a></li>
-          <li><a class="dropdown-item" href="pages/shop-grid.html">Breakfast & Instant Food</a></li>
-          <li><a class="dropdown-item" href="pages/shop-grid.html">Bakery & Biscuits</a></li>
-          <li><a class="dropdown-item" href="pages/shop-grid.html">Chicken, Meat & Fish</a></li>
+          {% for category in categories %}
+          <li><a class="dropdown-item" href="pages/shop-grid.html">{{ category.name }}</a></li>
+          {% endfor %}
         </ul>
       </div>
       <div class="offcanvas offcanvas-start p-4 p-lg-0" id="navbar-default">
@@ -135,13 +140,9 @@
           <div class="collapse mt-2" id="collapseExample">
             <div class="card card-body">
               <ul class="mb-0 list-unstyled">
-                <li><a class="dropdown-item" href="pages/shop-grid.html">Dairy, Bread & Eggs</a></li>
-                <li><a class="dropdown-item" href="pages/shop-grid.html">Snacks & Munchies</a></li>
-                <li><a class="dropdown-item" href="pages/shop-grid.html">Fruits & Vegetables</a></li>
-                <li><a class="dropdown-item" href="pages/shop-grid.html">Cold Drinks & Juices</a></li>
-                <li><a class="dropdown-item" href="pages/shop-grid.html">Breakfast & Instant Food</a></li>
-                <li><a class="dropdown-item" href="pages/shop-grid.html">Bakery & Biscuits</a></li>
-                <li><a class="dropdown-item" href="pages/shop-grid.html">Chicken, Meat & Fish</a></li>
+        {% for   category in categories %}
+                <li><a class="dropdown-item" href="pages/shop-grid.html">{{ category.name }}</a></li>
+                {% endfor %}
               </ul>
             </div>
           </div>

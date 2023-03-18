@@ -91,6 +91,9 @@ TEMPLATES = [
         ],
         'APP_DIRS': True,
         'OPTIONS': {
+            'libraries': {
+                'custom_filters': 'templatetags.custom_filters',
+            },
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -245,10 +248,10 @@ JAZZMIN_SETTINGS = {
     "topmenu_links": [
 
         # Url that gets reversed (Permissions can be added)
-        {"name": "Home",  "url": "admin:index", "permissions": ["core.view_user"]},
+        {"name": "Home",   "url": "main:index", "new_window": True},
 
         # external url that opens in a new window (Permissions can be added)
-        # {"name": "Support", "url": "https://github.com/farridav/django-jazzmin/issues", "new_window": True},
+        {"name": "Dashboard", "url": "admin:index", "permissions": ["core.view_user"]},
 
         # model admin to link to (Permissions checked against model)
         {"model": "core.User"},

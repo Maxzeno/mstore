@@ -5,15 +5,9 @@
     <div class="g-4 py-4 text-center">
         <h6 class="mb-4">Categories</h6>
         <div class="text-center">
-              <a href="#" class="me-4 text-nature">Vegetables</a>
-              <a href="#" class="me-4 text-nature"> Breakfast</a>
-              <a href="#" class="me-4 text-nature"> Bakery & Biscuits</a>
-              <a href="#" class="me-4 text-nature">Attasd</a>
-              <a href="#" class="me-4 text-nature">Sauces</a>
-              <a href="#" class="me-4 text-nature">Organic</a>
-              <a href="#" class="me-4 text-nature"> Baby care</a>
-              <a href="#" class="me-4 text-nature">Cleaning</a>
-              <a href="#" class="me-4 text-nature">Personal</a>
+              {% for category in categories %}
+              <a href="#" class="me-4 text-nature">{{ category.name }}</a>
+              {% endfor %}
           </div>
       </div>
     <div class="border-top py-4">

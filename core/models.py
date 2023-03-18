@@ -51,11 +51,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=100, blank=True, null=True)
     email = models.EmailField(unique=True)
     whatsapp_number = models.CharField(max_length=30)
+    image = models.ImageField(upload_to='images/', default='images/NA-removebg.png', blank=True, null=True)
     _password = ''
+    description = models.CharField(max_length=300, blank=True, null=True)
     is_staff = models.BooleanField(default=False, help_text=_('Designates whether the user can log into this admin site.'))
     is_active = models.BooleanField(default=True)
     is_seller = models.BooleanField(default=False)
     is_suspended = models.BooleanField(default=False)
+    ordered = models.IntegerField(default=0)
 
     date_joined = models.DateTimeField(default=timezone.now)
 
@@ -82,9 +85,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     description = models.CharField(max_length=100, blank=True, null=True)
-    image = models.ImageField(upload_to='images/', blank=True, null=True)
+    image = models.ImageField(upload_to='images/', default='images/NA-removebg.png', blank=True, null=True)
+    ordered = models.IntegerField(default=0)
     date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
@@ -97,8 +101,9 @@ class Category(models.Model):
 class SubCategory(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=100, blank=True, null=True)
-    image = models.ImageField(upload_to='images/', blank=True, null=True)
+    image = models.ImageField(upload_to='images/', default='images/NA-removebg.png', blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    ordered = models.IntegerField(default=0)
     date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
@@ -106,6 +111,13 @@ class SubCategory(models.Model):
 
     class Meta:
         verbose_name_plural = 'Sub Categories'
+        
+        constraints = [
+            models.UniqueConstraint(
+                fields=['category', 'name'],
+                name='unique_name_per_category'
+            )
+        ]
 
 
 def product_id():
@@ -118,8 +130,8 @@ def product_id():
 class Product(models.Model):
     id = models.CharField(primary_key=True, max_length=10, default=product_id)
     name = models.CharField(max_length=100)
-    description = models.CharField(max_length=100, blank=True, null=True)
-    image = models.ImageField(upload_to='images/', blank=True, null=True)
+    description = models.CharField(max_length=300, blank=True, null=True)
+    image = models.ImageField(upload_to='images/', default='images/NA-removebg.png', blank=True, null=True)
     sub_category = models.ForeignKey(SubCategory, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     seller = models.ForeignKey(User, on_delete=models.CASCADE)

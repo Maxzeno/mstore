@@ -1,0 +1,42 @@
+[
+    {
+        "model": "core.product",
+        "fields": {
+            "name": "Product 1",
+            "description": "This is product 1",
+            "sub_category": 1,
+            "seller": 5,
+            "price": 14
+        }
+    },
+    {
+        "model": "core.product",
+        "fields": {
+            "name": "Product 2",
+            "description": "This is product 2",
+            "sub_category": 1,
+            "seller": 4,
+            "price": 52
+        }
+    },
+    {
+        "model": "core.product",
+        "fields": {
+            "name": "Product 1",
+            "description": "This is product 1",
+            "sub_category": 2,
+            "seller": 1,
+            "price": 30
+        }
+    },
+    {
+        "model": "core.product",
+        "fields": {
+            "name": "Product 2",
+            "description": "This is product 2",
+            "sub_category": 2,
+            "seller": 3,
+            "price": 12
+        }
+    }
+]
