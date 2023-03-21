@@ -184,6 +184,12 @@ class Order(models.Model):
     status = models.CharField(max_length=1, choices=STATUS_CHOICES)
     date = models.DateTimeField(default=timezone.now)
 
+    def order_status(self):
+        for i in self.STATUS_CHOICES:
+            if i[0].upper() == self.status.upper():
+                return i[1]
+        return ''
+
     def __str__(self):
         return self.id
 

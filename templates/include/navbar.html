@@ -83,8 +83,8 @@
                 </div>
                 <ul class="list-unstyled px-2 py-3">
                   <li>
-                      <a class="dropdown-item" href="/">
-                         Home
+                      <a class="dropdown-item" href="/orders">
+                         Orders
                       </a>
                   </li>
                   <li>
@@ -171,8 +171,8 @@
                 </div>
                 <ul class="list-unstyled px-2 py-3">
                   <li>
-                      <a class="dropdown-item" href="/">
-                         Home
+                      <a class="dropdown-item" href="/orders">
+                         Orders
                       </a>
                   </li>
                   <li>
@@ -309,6 +309,32 @@
                 Sale with us
               </a>
             </li>
+            {% if request.user.is_authenticated %}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Account
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/orders">Orders</a></li>
+                <li><a class="dropdown-item" href="/address">Address</a></li>
+                <li><a class="dropdown-item" href="/settings">Settings</a></li>
+              </ul>
+            </li>
+            {% endif %}
+            {% if request.user.is_authenticated and request.user.is_seller %}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Seller
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/seller/dashboard">Dashboard</a></li>
+                <li><a class="dropdown-item" href="/seller/products">Products</a></li>
+                <li><a class="dropdown-item" href="/seller/requests">Requests</a></li>
+              </ul>
+            </li>
+            {% endif %}
           </ul>
         </div>
         <div class="d-block d-lg-none h-100" data-simplebar="">
@@ -333,6 +359,32 @@
                 Sale with us
               </a>
             </li>
+            {% if request.user.is_authenticated %}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Account
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/orders">Orders</a></li>
+                <li><a class="dropdown-item" href="/address">Address</a></li>
+                <li><a class="dropdown-item" href="/settings">Settings</a></li>
+              </ul>
+            </li>
+            {% endif %}
+            {% if request.user.is_authenticated and request.user.is_seller %}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Seller
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/seller/dashboard">Dashboard</a></li>
+                <li><a class="dropdown-item" href="/seller/products">Products</a></li>
+                <li><a class="dropdown-item" href="/seller/requests">Requests</a></li>
+              </ul>
+            </li>
+            {% endif %}
           </ul>
         </div>
       </div>

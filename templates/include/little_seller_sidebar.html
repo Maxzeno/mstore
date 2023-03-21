@@ -1,0 +1,31 @@
+{% load static %}
+
+<div class="col-lg-3 col-md-4 col-12 border-end  d-none d-md-block">
+  <div class="pt-10 pe-lg-10">
+    <!-- nav item -->
+    <ul class="nav flex-column nav-pills nav-pills-dark">
+      <li class="nav-item">
+        <a class="nav-link  {{ dashboard }}" aria-current="page" href="/seller/dashboard"><i
+            class="feather-icon icon-home me-2"></i>Dashboard</a>
+      </li>
+      <!-- nav item -->
+      <li class="nav-item">
+        <a class="nav-link {{ products }}" href="/seller/products"><i
+            class="feather-icon icon-shopping-bag me-2"></i>Products</a>
+      </li>
+      <!-- nav item -->
+      <li class="nav-item">
+        <a class="nav-link {{ requests }}" href="/seller/requests"><i
+            class="feather-icon icon-shopping-cart me-2"></i>Requests</a>
+      </li>
+      <!-- nav item -->
+      <li class="nav-item">
+        <hr>
+      </li>
+      <!-- nav item -->
+      <li class="nav-item">
+        <a class="nav-link " href="{% url 'login:signout' %}"><i class="feather-icon icon-log-out me-2"></i>Log out</a>
+      </li>
+    </ul>
+  </div>
+</div>

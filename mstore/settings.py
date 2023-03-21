@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'main',
     'login',
     'core',
+    'seller',
 ]
 
 if not _TRY_LOCAL_STORAGE:

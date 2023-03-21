@@ -1,0 +1,161 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block title %}Seller Dashboard{% endblock %}
+
+{% block content %}
+<main>
+    <section>
+    <div class="container">
+      <!-- row -->
+      <div class="row">
+        <!-- col -->
+        {% with dashboard='active' %}
+          {% include '../include/little_seller_sidebar.html' with dashboard=dashboard %}
+        {% endwith %}
+
+              <!-- row -->
+              <div class="col-lg-9 col-md-8 col-12">
+                  <div class="py-6 p-md-6 p-lg-10">
+                    <div class="d-flex justify-content-between align-items-center pb-4 pt-md-1 pt-1">
+              <!-- heading -->
+              <h2 class="mb-0">Dashboard</h2>
+              <button class="btn btn-outline-gray-400 text-muted d-md-none btn-icon btn-sm ms-3 " type="button"
+              data-bs-toggle="offcanvas" data-bs-target="#offcanvasAccount" aria-controls="offcanvasAccount">
+              <i class="bi bi-text-indent-left fs-3"></i>
+            </button>
+            </div>
+                      <!-- card -->
+                      <div class="card bg-light border-0 rounded-4">
+                          <div class="card-body p-lg-12">
+                              <h1>Welcome back! FreshCart
+                              </h1>
+                              <p>FreshCart is simple & clean design for developer and
+                                  designer.</p>
+                              <a href="#" class="btn btn-primary">
+                                  Create Product
+                              </a>
+                          </div>
+                      </div>
+                  </div>
+
+           
+                  <div class="row mt-6">
+                      <div class="col-lg-4 col-12 mb-6">
+                          <!-- card -->
+                          <div class="card h-100 card-lg">
+                              <!-- card body -->
+                              <div class="card-body p-6">
+                                  <!-- heading -->
+                                  <div class="d-flex justify-content-between align-items-center mb-6">
+                                      <div>
+                                          <h4 class="mb-0 fs-5">Products</h4>
+                                      </div>
+                                      <div
+                                          class="icon-shape icon-md bg-light-danger text-dark-danger rounded-circle">
+                                          <i class="bi bi-bag fs-5"></i>
+                                      </div>
+                                  </div>
+                                  <!-- project number -->
+                                  <div class="lh-1">
+                                      <h1 class=" mb-2 fw-bold fs-2">{{ num_products }}</h1>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-lg-4 col-12 mb-6">
+                          <!-- card -->
+                          <div class="card h-100 card-lg">
+                              <!-- card body -->
+                              <div class="card-body p-6">
+                                  <!-- heading -->
+                                  <div class="d-flex justify-content-between align-items-center mb-6">
+                                      <div>
+                                          <h4 class="mb-0 fs-5">Orders</h4>
+                                      </div>
+                                      <div
+                                          class="icon-shape icon-md bg-light-warning text-dark-warning rounded-circle">
+                                          <i class="bi bi-cart fs-5"></i>
+                                      </div>
+                                  </div>
+                                  <!-- project number -->
+                                  <div class="lh-1">
+                                      <h1 class=" mb-2 fw-bold fs-2">{{ orders|length }}</h1>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-lg-4 col-12 mb-6">
+                          <!-- card -->
+                          <div class="card h-100 card-lg">
+                              <!-- card body -->
+                              <div class="card-body p-6">
+                                  <!-- heading -->
+                                  <div class="d-flex justify-content-between align-items-center mb-6">
+                                      <div>
+                                          <h4 class="mb-0 fs-5">Customer</h4>
+                                      </div>
+                                      <div class="icon-shape icon-md bg-light-info text-dark-info rounded-circle">
+                                          <i class="bi bi-people fs-5"></i>
+                                      </div>
+                                  </div>
+                                  <!-- project number -->
+                                  <div class="lh-1">
+                                      <h1 class=" mb-2 fw-bold fs-2">{{ num_buyers }}</h1>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+             
+              
+             
+              <!-- row -->
+              <div class="row ">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-12 mb-6">
+                      <div class="card h-100 card-lg">
+                          <!-- heading -->
+                          <div class="p-6">
+                              <h3 class="mb-0 fs-5">Recent Order</h3>
+                          </div>
+                          <div class="card-body p-0">
+                              <!-- table -->
+                              <div class="table-responsive">
+                                  <table class="table table-centered table-borderless text-nowrap table-hover">
+                                      <thead class="bg-light">
+                                          <tr>
+                                              <th scope="col">Order Number</th>
+                                              <th scope="col">Product Name</th>
+                                              <th scope="col">Order Date</th>
+                                              <th scope="col">Price</th>
+                                              <th scope="col">Status</th>
+
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                        {% for order in orders %}
+                                          <tr>
+                                              <td>{{ order.id }}</td>
+                                              <td>{{ order.product.name }}</td>
+                                              <td>{{ order.date|date:"F j, Y" }}</td>
+                                              <td>₦{{ order.product.price }}</td>
+                                              <td>
+                                                  <span class="badge bg-secondary">{{ order.order_status }}</span>
+                                              </td>
+                                          </tr>
+                                          {% endfor %}
+                                      </tbody>
+                                  </table>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              </div>
+          </section>
+</main>
+
+{% with dashboard='active' %}
+  {% include '../include/little_seller_modelbar.html' with dashboard=dashboard %}
+{% endwith %}
+
+{% endblock %}
