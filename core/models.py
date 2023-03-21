@@ -7,7 +7,13 @@ from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.hashers import (
     check_password, is_password_usable, make_password,
 )
+from ckeditor.fields import RichTextField
+
+# from django_summernote.fields import SummernoteTextField
+
+
 import shortuuid
+
 
 # Create your models here.
 
@@ -53,7 +59,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     whatsapp_number = models.CharField(max_length=30)
     image = models.ImageField(upload_to='images/', default='images/NA-removebg.png', blank=True, null=True)
     _password = ''
-    description = models.CharField(max_length=300, blank=True, null=True)
+    state = models.CharField(max_length=100, blank=True, null=True)
+    address = models.CharField(max_length=500, blank=True, null=True)
+    description = models.CharField(max_length=1000, blank=True, null=True)
     is_staff = models.BooleanField(default=False, help_text=_('Designates whether the user can log into this admin site.'))
     is_active = models.BooleanField(default=True)
     is_seller = models.BooleanField(default=False)
@@ -84,6 +92,19 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.name or self.email
 
 
+# class Address(models.Model):
+#     state = models.CharField(max_length=100, blank=True, null=True)
+#     address = models.CharField(max_length=500, blank=True, null=True)
+#     # user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     date = models.DateTimeField(default=timezone.now)
+
+#     def __str__(self):
+#         return self.state or self.address[:20]
+
+#     class Meta:
+#         verbose_name_plural = 'Addresses'
+
+
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.CharField(max_length=100, blank=True, null=True)
@@ -111,7 +132,7 @@ class SubCategory(models.Model):
 
     class Meta:
         verbose_name_plural = 'Sub Categories'
-        
+
         constraints = [
             models.UniqueConstraint(
                 fields=['category', 'name'],
@@ -119,18 +140,26 @@ class SubCategory(models.Model):
             )
         ]
 
-
-def product_id():
+        
+def unique_id(table):
     while True:
         random = shortuuid.ShortUUID().random(length=8)
-        if not Product.objects.filter(id=random):
+        if not table.objects.filter(id=random).exists():
             break
     return random
+
+def product_id():
+    return unique_id(Product)
+
+def order_id():
+    return unique_id(Order)
+
 
 class Product(models.Model):
     id = models.CharField(primary_key=True, max_length=10, default=product_id)
     name = models.CharField(max_length=100)
-    description = models.CharField(max_length=300, blank=True, null=True)
+    description = RichTextField(blank=True, null=True)
+    state = models.CharField(max_length=100, blank=True, null=True)
     image = models.ImageField(upload_to='images/', default='images/NA-removebg.png', blank=True, null=True)
     sub_category = models.ForeignKey(SubCategory, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -143,5 +172,38 @@ class Product(models.Model):
         return self.name
     
 
+class Order(models.Model):
+    STATUS_CHOICES = [
+        ('S', 'Success'),
+        ('P', 'Pending'),
+        ('C', 'Cancel'),
+    ]
+    id = models.CharField(primary_key=True, max_length=10, default=order_id)
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, blank=True, null=True)
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE)
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES)
+    date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.id
 
 
+class Email(models.Model):
+    email = models.EmailField(unique=True, null=False)
+    date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.email
+    
+
+class ContactUs(models.Model):
+    email = models.EmailField(unique=True)
+    message = models.CharField(max_length=1000)
+    date = models.DateTimeField(default=timezone.now)
+    is_resolved = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.email
+
+    class Meta:
+        verbose_name_plural = 'Contact us'

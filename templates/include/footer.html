@@ -12,7 +12,7 @@
       </div>
     <div class="border-top py-4">
       <div class="row align-items-center">
-        <div class="col-md-6"><span class="small text-muted">Copyright 2023 © FreshCart eCommerce.  All rights reserved.</span></div>
+        <div class="col-md-6"><span class="small text-muted">Copyright <span id="copyright-year"></span> © Nime enterprise.  All rights reserved.</span></div>
         <div class="col-md-6">
           <ul class="list-inline text-md-end mb-0 small mt-3 mt-md-0">
             <li class="list-inline-item text-muted">Follow us on</li>
@@ -41,3 +41,11 @@
     </div>
   </div>
 </footer>
+
+<script>
+let currentYear = new Date().getFullYear();
+
+let year = document.getElementById("copyright-year");
+year.innerText = `${currentYear}`;
+
+</script>

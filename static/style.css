@@ -6,6 +6,10 @@
 	color: #0aad0a;
 }
 
+.green{
+	color: #0aad0a !important;
+}
+
 #passwordToggler2{
 	color:#001e2b;
 	cursor:pointer;

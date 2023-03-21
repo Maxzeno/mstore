@@ -51,6 +51,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_bootstrap5',
+    'ckeditor',
+    'django_summernote',
+    'django_user_agents',
     'main',
     'login',
     'core',
@@ -79,6 +82,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django_user_agents.middleware.UserAgentMiddleware',
 ]
 
 ROOT_URLCONF = 'mstore.urls'
@@ -201,19 +205,38 @@ else:
 
 LOGIN_URL = '/login'
 
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'width': '100%',
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline', 'Strike'],
+            ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
+            ['Link', 'Unlink', 'Anchor'],
+            ['Undo', 'Redo'],
+            ['Format', 'Styles'],
+            ['RemoveFormat', 'Source']
+        ],
+        'removePlugins': 'image',
+        'removeButtons': 'Source',
+    }
+}
+
 
 JAZZMIN_SETTINGS = {
     # title of the window (Will default to current_admin_site.site_title if absent or None)
-    "site_title": "Library Admin",
+    "site_title": "Nime enterprise",
 
     # Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
-    "site_header": "Library",
+    "site_header": "Nime enterprise",
 
     # Title on the brand (19 chars max) (defaults to current_admin_site.site_header if absent or None)
-    "site_brand": "Library",
+    "site_brand": "Nime Admin",
 
     # Logo to use for your site, must be present in static files, used for brand on top left
-    "site_logo": "assets/images/logo/freshcart-white-logo.svg",
+    "site_logo": "img/icon nobg-crop.png",
 
     # Logo to use for your site, must be present in static files, used for login form logo (defaults to site_logo)
     "login_logo": None,
@@ -222,16 +245,16 @@ JAZZMIN_SETTINGS = {
     "login_logo_dark": None,
 
     # CSS classes that are applied to the logo above
-    "site_logo_classes": "img-circle",
+    "site_logo_classes": "",
 
     # Relative path to a favicon for your site, will default to site_logo if absent (ideally 32x32 px)
-    "site_icon": None,
+    "site_icon": 'img/icon nobg-crop.png',
 
     # Welcome text on the login screen
-    "welcome_sign": "Welcome to the library",
+    "welcome_sign": "Welcome to the Nime enterprise",
 
     # Copyright on the footer
-    "copyright": "Mstore Library Ltd",
+    "copyright": "Nime enterprise",
 
     # List of model admins to search from the search bar, search bar omitted if excluded
     # If you want to use a single search field you dont need to use a list, you can use a simple string 
@@ -287,7 +310,7 @@ JAZZMIN_SETTINGS = {
     "hide_models": [],
 
     # List of apps (and/or models) to base side menu ordering off of (does not need to contain all apps/models)
-    "order_with_respect_to": ["core.user", "core.product"],
+    "order_with_respect_to": ["core.user", "core.product", "core.category", "core.subcategory", "core.address"],
 
     # Custom links to append to app groups, keyed on app name
     # "custom_links": {
@@ -307,6 +330,7 @@ JAZZMIN_SETTINGS = {
         "core.product": "fas fa-shopping-bag",
         "core.category": "fas fa-plus-square",
         "core.subcategory": "fas fa-minus-square",
+        "core.address": "fas fa-map-marker-alt",
     },
     # Icons that are used when one is not manually specified
     "default_icon_parents": "fas fa-chevron-circle-right",
@@ -344,3 +368,112 @@ JAZZMIN_SETTINGS = {
     # Add a language dropdown into the admin
     # "language_chooser": True,
 }
+
+
+# SUMMERNOTE_CONFIG = {
+#     # Using SummernoteWidget - iframe mode, default
+#     # 'iframe': True,
+
+#     # Or, you can set it to `False` to use SummernoteInplaceWidget by default - no iframe mode
+#     # In this case, you have to load Bootstrap/jQuery sources and dependencies manually.
+#     # Use this when you're already using Bootstrap/jQuery based themes.
+#     'iframe': True,
+
+#     # You can put custom Summernote settings
+#     'summernote': {
+#         # As an example, using Summernote Air-mode
+#         'airMode': False,
+
+#         # Change editor size
+#         'width': '100%',
+#         'height': '480',
+
+#         # Use proper language setting automatically (default)
+#         'lang': None,
+
+#         # Toolbar customization
+#         # https://summernote.org/deep-dive/#custom-toolbar-popover
+#         'toolbar': [
+#             ['style', ['style']],
+#             ['font', ['bold', 'underline', 'clear']],
+#             ['fontname', ['fontname']],
+#             ['color', ['color']],
+#             ['para', ['ul', 'ol', 'paragraph']],
+#             ['table', ['table']],
+#             ['insert', ['link']],
+#             ['view', ['fullscreen', 'help']],
+#         ],
+
+#         # Or, explicitly set language/locale for editor
+#         # 'lang': 'ko-KR',
+#         # ...
+
+#         # You can also add custom settings for external plugins
+#         # 'print': {
+#         #     'stylesheetUrl': '/some_static_folder/printable.css',
+#         # },
+#         # 'codemirror': {
+#         #     'mode': 'htmlmixed',
+#         #     'lineNumbers': 'true',
+#         #     # You have to include theme file in 'css' or 'css_for_inplace' before using it.
+#         #     'theme': 'monokai',
+#         # },
+#     },
+
+#     # Require users to be authenticated for uploading attachments.
+#     'attachment_require_authentication': True,
+
+#     # Set `upload_to` function for attachments.
+#     # 'attachment_upload_to': my_custom_upload_to_func(),
+
+#     # Set custom storage class for attachments.
+#     # 'attachment_storage_class': 'my.custom.storage.class.name',
+
+#     # Set custom model for attachments (default: 'django_summernote.Attachment')
+#     # 'attachment_model': 'my.custom.attachment.model', # must inherit 'django_summernote.AbstractAttachment'
+
+#     # You can completely disable the attachment feature.
+#     'disable_attachment': False,
+
+#     # Set to `True` to return attachment paths in absolute URIs.
+#     # 'attachment_absolute_uri': False,
+
+#     # test_func in summernote upload view. (Allow upload images only when user passes the test)
+#     # https://docs.djangoproject.com/en/2.2/topics/auth/default/#django.contrib.auth.mixins.UserPassesTestMixin
+#     # ```
+#     # def example_test_func(request):
+#     #     return request.user.groups.filter(name='group_name').exists()
+#     # ```
+#     # 'test_func_upload_view': example_test_func,
+
+#     # You can add custom css/js for SummernoteWidget.
+#     # 'css': (
+#     # ),
+#     # 'js': (
+#     # ),
+
+#     # You can also add custom css/js for SummernoteInplaceWidget.
+#     # !!! Be sure to put {{ form.media }} in template before initiate summernote.
+#     # 'css_for_inplace': (
+#     # ),
+#     # 'js_for_inplace': (
+#     # ),
+
+#     # Codemirror as codeview
+#     # If any codemirror settings are defined, it will include codemirror files automatically.
+#     'css': (
+#         '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/theme/monokai.min.css',
+#     ),
+
+#     # Lazy initialization
+#     # If you want to initialize summernote at the bottom of page, set this as True
+#     # and call `initSummernote()` on your page.
+#     'lazy': False,
+
+#     # To use external plugins,
+#     # Include them within `css` and `js`.
+#     # 'js': {
+#     #     '/some_static_folder/summernote-ext-print.js',
+#     #     '//somewhere_in_internet/summernote-plugin-name.js',
+#     # },
+# }

@@ -1,6 +1,6 @@
 {% extends '../base.html' %}
 {% load static %}
-
+{% block title %}Home{% endblock %}
 {% block content %}
 <main>
 <!--  <section class="mt-8">
@@ -16,7 +16,7 @@
 
               <h2 class="text-dark display-5 fw-bold mt-4">Buy the cool stuff</h2>
               <p class="lead">Buy what you want and get it fast at an affordable rate.</p>
-              <a href="#!" class="btn btn-dark mt-3">Shop Now <i class="feather-icon icon-arrow-right ms-1"></i></a>
+              <a href="/products" class="btn btn-dark mt-3">Shop Now <i class="feather-icon icon-arrow-right ms-1"></i></a>
             </div>
 
           </div>
@@ -41,7 +41,7 @@
 
         {% for category in categories %}
         <!-- col -->
-        <div class="col"> <a href="shop-grid.html" class="text-decoration-none text-inherit">
+        <div class="col"> <a href="/products?category={{ category }}" class="text-decoration-none text-inherit">
             <!-- card -->
             <div class="card card-product">
               <div class="card-body text-center py-8">
@@ -75,7 +75,7 @@
               <p class="mb-0 lead">Everything you want at your finger tips.
                 quality and fast delivery assured.
               </p>
-              <a href="#" class="btn btn-dark mt-5">Start Shopping</a>
+              <a href="/products" class="btn btn-dark mt-5">Start Shopping</a>
 
             </div>
             <div class="p-6 d-lg-block d-none"><img src="{% static 'assets/images/svg-graphics/store-graphics.svg' %}" alt=""
@@ -99,7 +99,7 @@
           </div>
         </div>
 
-        {% with col=4 %}
+        {% with col=3 %}
             {% include '../include/product_card.html' with col=col %}
           {% endwith%}
   </div>
@@ -157,18 +157,18 @@
              <!-- col -->
             <div class="col-md-6">
               <div class="text-white mt-8 mt-lg-0">
-                <span>$30 discount for your first order</span>
                 <h2 class="h2 text-white  my-4">Get top deals, latest trends,
                   and more.</h2>
                 <p class="text-white-50">Join our email subscription now to get updates on promotions
                   and coupons.</p>
                    <!-- form -->
-                <form class="row g-3">
+                <form action="{% url 'main:email_subscribe' %}" method="post" class="row g-3">
+                  {% csrf_token %}
 
                   <div class="col-6">
                      <!-- input -->
                     <label for="emailAddress" class="visually-hidden">Email Address</label>
-                    <input type="email" class="form-control" id="emailAddress" placeholder="Email Address">
+                    {{ email_form.email }}
                   </div>
                    <!-- btn -->
                   <div class="col-auto">

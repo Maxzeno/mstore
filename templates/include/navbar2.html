@@ -1,403 +1,211 @@
 {% load static %}
 
-<nav class="navbar py-lg-4 py-3 px-0 border-bottom navbar-menu">
-  <div class="container-fluid">
-    <div class="row w-100 align-items-center g-0 gx-lg-3">
-      <div class="col-xxl-10 col-lg-8">
-        <div class="d-flex align-items-center">
-          <button class="navbar-toggler collapsed d-none d-lg-block" type="button" data-bs-toggle="offcanvas"
-            data-bs-target="#navbar-default" aria-controls="navbar-default">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-text-indent-right text-primary" viewBox="0 0 16 16">
-              <path d="M2 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm10.646 2.146a.5.5 0 0 1 .708.708L11.707 8l1.647 1.646a.5.5 0 0 1-.708.708l-2-2a.5.5 0 0 1 0-.708l2-2zM2 6.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
-            </svg>
-          </button>
-          <a class="navbar-brand d-none d-lg-block ms-4" href="../index.html">
-            <img src="{% static 'assets/images/logo/freshcart-logo.svg' %}" alt="eCommerce HTML Template">
-
-          </a>
-          <div class="d-flex  w-100 ms-4 ">
-            <form action="#" class="w-100 d-none d-lg-block">
-
-
-
-                  <div class="input-group ">
-                    <input class="form-control rounded" type="search" placeholder="Search for products" >
-                    <span class="input-group-append">
-                        <button class="btn bg-white border border-start-0 ms-n10 rounded-0 rounded-end" type="button">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search">
-                          <circle cx="11" cy="11" r="8"></circle>
-                          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                        </svg>
-                        </button>
-                    </span>
+<div class="border-bottom ">
+    <div class="py-4 pt-lg-3 pb-lg-0">
+      <div class="container">
+        <div class="w-100 d-flex justify-content-between align-items-center gx-lg-2 gx-0">
+            <a class="navbar-brand d-none d-lg-block" href="/">
+              <img src="{% static 'img/logo-removebg-crop.png' %}" style="height: 45px" alt="Nime Enterprise">
+            </a>
+<!-- 
+            <div class="d-none d-lg-block">
+              <form action="#">
+                <div class="input-group ">
+                  <input class="form-control rounded" type="search" placeholder="Search for products">
+                  <span class="input-group-append">
+                    <button class="btn bg-white border border-start-0 ms-n10 rounded-0 rounded-end" type="button">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="feather feather-search">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      </svg>
+                    </button>
+                  </span>
                 </div>
+              </form>
+            </div> -->
+            
+            <div class="d-flex justify-content-between w-100 d-lg-none">
+              <a class="navbar-brand" href="/">
+                <img src="{% static 'img/logo-removebg-crop.png' %}" style="height: 45px" alt="Nime Enterprise">
+              </a>
 
-
-
-            </form>
-          </div>
-        </div>
-        <div class="d-flex justify-content-between w-100 d-lg-none align-items-center">
-          <button class="navbar-toggler collapsed " type="button" data-bs-toggle="offcanvas"
-            data-bs-target="#navbar-default" aria-controls="navbar-default">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-text-indent-left text-primary" viewBox="0 0 16 16">
-              <path d="M2 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm.646 2.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L4.293 8 2.646 6.354a.5.5 0 0 1 0-.708zM7 6.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm-5 3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
-            </svg>
-          </button>
-          <a class="navbar-brand" href="../index.html">
-            <img src="{% static 'assets/images/logo/freshcart-logo.svg' %}" alt="eCommerce HTML Template">
-          </a>
-          <div class="d-flex align-items-center lh-1">
-            <div class="list-inline me-2">
-              <div class="list-inline-item">
-                <a href="#!" class="text-muted" data-bs-toggle="modal" data-bs-target="#userModal">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="feather feather-user">
+              <div class="d-flex align-items-center">
+                {% if request.user.is_authenticated %}
+              <div class="dropdown">
+                <a class="me-2" href="#" role="button"
+                  data-bs-toggle="dropdown" aria-expanded="false">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                     <circle cx="12" cy="7" r="4"></circle>
                   </svg>
-                </a></div>
-              <div class="list-inline-item">
-                <a class="text-muted position-relative " data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
-                  href="#offcanvasExample" role="button" aria-controls="offcanvasRight">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="feather feather-shopping-bag">
-                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <path d="M16 10a4 4 0 0 1-8 0"></path>
-                  </svg>
-                  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
-                    1
-                    <span class="visually-hidden">unread messages</span>
-                  </span>
                 </a>
+
+                <ul class="dropdown-menu" >
+                  <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Profile</a></li>
+                  <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Settings</a></li>
+                  <li><a class="dropdown-item" href="/signout"><i class="bi bi-power me-2"></i>Logout</a></li>
+                </ul>
               </div>
-            </div>
-            <!-- Button -->
-          </div>
-        </div>
-      </div>
-
-      <div class="col-xxl-2 col-lg-4 d-flex align-items-center justify-content-end ">
-        <!-- Button trigger modal -->
-        <div class="list-inline  d-lg-block d-none">
-          <div class="list-inline-item">
-            <a href="shop-wishlist.html" class="text-muted position-relative">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                class="feather feather-heart">
-                <path
-                  d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
-                </path>
-              </svg>
-              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
-                5
-                <span class="visually-hidden">unread messages</span>
-              </span>
-            </a></div>
-
-          <div class="list-inline-item">
-            <a href="#" class="text-muted" data-bs-toggle="modal" data-bs-target="#locationModal">
-
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                class="feather feather-map-pin">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                <circle cx="12" cy="10" r="3"></circle>
-              </svg>
-            </a>
-          </div>
-          <div class="list-inline-item">
-
-            <a href="#!" class="text-muted" data-bs-toggle="modal" data-bs-target="#userModal">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                class="feather feather-user">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-              </svg>
-            </a></div>
-          <div class="list-inline-item">
-
-            <a class="text-muted position-relative " data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
-              href="#offcanvasExample" role="button" aria-controls="offcanvasRight">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                class="feather feather-shopping-bag">
-                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <path d="M16 10a4 4 0 0 1-8 0"></path>
-              </svg>
-              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
-                1
-                <span class="visually-hidden">unread messages</span>
-              </span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="offcanvas offcanvas-start p-4 w-xxl-20 w-lg-30" id="navbar-default">
-      <div class="d-flex justify-content-between align-items-center mb-2 ">
-        <a href="../index.html"><img src="{% static 'assets/images/logo/freshcart-logo.svg' %}" alt="eCommerce HTML Template"></a>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-      </div>
-      <div class=" my-4">
-
-        <form action="#">
-          <div class="input-group ">
-            <input class="form-control rounded" type="search" placeholder="Search for products" >
-            <span class="input-group-append">
-                <button class="btn bg-white border border-start-0 ms-n10 rounded-0 rounded-end" type="button">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search">
-                  <circle cx="11" cy="11" r="8"></circle>
-                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
+                {% else %}
+                <a href="/login" class="btn btn-sm btn-light me-1">Login</a>
+                <a href="/signup" class="btn btn-sm btn-primary me-2">Signup</a>
+                {% endif %}
+                  
+                <!-- Button -->
+                <button class="navbar-toggler collapsed" type="button" data-bs-toggle="offcanvas"
+                  data-bs-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false"
+                  aria-label="Toggle navigation">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                    class="bi bi-text-indent-left text-primary" viewBox="0 0 16 16">
+                    <path
+                      d="M2 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm.646 2.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L4.293 8 2.646 6.354a.5.5 0 0 1 0-.708zM7 6.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm-5 3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
+                  </svg>
                 </button>
-            </span>
+
+              </div>
+
+          </div>
+
+          <div class="d-none d-lg-block">
+            <span class="text-md-end mb-0 small mt-3 mt-md-0 me-4">
+            <!-- <span class="text-muted">Follow us on</span> -->
+            <span class="me-1">
+              <a href="#!" class="text-nature"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-facebook" viewBox="0 0 16 16">
+                  <path
+                    d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
+                </svg></a></span>
+            <span class=" me-1">
+              <a href="#!" class="text-nature"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-twitter" viewBox="0 0 16 16">
+                  <path
+                    d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" />
+                </svg></a></span>
+            <span class="">
+              <a href="#!" class="text-nature"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-instagram" viewBox="0 0 16 16">
+                  <path
+                    d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z" />
+                </svg></a></span>
+          </span>
+                {% if request.user.is_authenticated %}
+                <a href="/signout" class="btn btn-sm btn-light">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                  </svg></a>
+                  
+                {% else %}
+                <a href="/login" class="btn btn-sm btn-light">Login</a>  
+                <a href="/signup" class="btn btn-sm btn-primary">Signup</a>
+                {% endif %}
+          </div>
         </div>
-
-        </form>
-        <div class="mt-2">
-          <button type="button" class="btn  btn-outline-gray-400 text-muted w-100 " data-bs-toggle="modal"
-            data-bs-target="#locationModal">
-            <i class="feather-icon icon-map-pin me-2"></i>Pick Location
-          </button>
-        </div>
-
-
-
+      </div>
     </div>
-      <div class="mb-4">
-        <a class="btn btn-primary w-100 d-flex justify-content-center align-items-center" data-bs-toggle="collapse"
-          href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-          <span class="me-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-              fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+
+ 
+  <nav class="navbar navbar-expand-lg navbar-light navbar-default py-0 py-lg-4">
+    <div class="container px-0 px-md-3">
+      <div class="dropdown me-3 d-none d-lg-block">
+        <button class="btn btn-primary px-6 " type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          <span class="me-1">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"
               class="feather feather-grid">
               <rect x="3" y="3" width="7" height="7"></rect>
               <rect x="14" y="3" width="7" height="7"></rect>
               <rect x="14" y="14" width="7" height="7"></rect>
               <rect x="3" y="14" width="7" height="7"></rect>
-            </svg></span> All Departments
-        </a>
-        <div class="collapse mt-2" id="collapseExample">
-          <div class="card card-body">
-            <ul class="mb-0 list-unstyled">
-              <li><a class="dropdown-item" href="shop-grid.html">Dairy, Bread & Eggs</a></li>
-              <li><a class="dropdown-item" href="shop-grid.html">Snacks & Munchies</a></li>
-              <li><a class="dropdown-item" href="shop-grid.html">Fruits & Vegetables</a></li>
-              <li><a class="dropdown-item" href="shop-grid.html">Cold Drinks & Juices</a></li>
-              <li><a class="dropdown-item" href="shop-grid.html">Breakfast & Instant Food</a></li>
-              <li><a class="dropdown-item" href="shop-grid.html">Bakery & Biscuits</a></li>
+            </svg></span> All Categories
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+          {% for category in categories %}
+          <li><a class="dropdown-item" href="/products?category={{ category }}">{{ category.name }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="offcanvas offcanvas-start p-4 p-lg-0" id="navbar-default">
+        <div class="d-flex justify-content-between align-items-center mb-2 d-block d-lg-none">
+          <a href="/"><img src="{% static 'img/logo-removebg-crop.png' %}" style="height: 45px" alt="Nime Enterprise"></a>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
 
-              <li><a class="dropdown-item" href="shop-grid.html">Chicken, Meat & Fish</a></li>
-            </ul>
+        <div class="d-block d-lg-none mb-4">
+          <a class="btn btn-primary w-100 d-flex justify-content-center align-items-center" data-bs-toggle="collapse"
+            href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            <span class="me-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                class="feather feather-grid">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </svg></span> All Categories
+          </a>
+          <div class="collapse mt-2" id="collapseExample">
+            <div class="card card-body">
+              <ul class="mb-0 list-unstyled">
+        {% for   category in categories %}
+                <li><a class="dropdown-item" href="/products?category={{ category }}">{{ category.name }}</a></li>
+                {% endfor %}
+              </ul>
+            </div>
           </div>
         </div>
+        <div class="d-none d-lg-block">
+          <ul class="navbar-nav align-items-center ">
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                Home
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/contact">
+                Contact
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/become-seller">
+                Sale your product
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/products">
+                Products
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="d-block d-lg-none h-100" data-simplebar="">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                Home
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/contact">
+                Contact
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/become-seller">
+                Sale your product
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/products">
+                Products
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div class="h-100" data-simplebar="">
-      <ul class="navbar-nav navbar-nav-offcanvac">
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#"  role="button"
-            data-bs-toggle="dropdown" aria-expanded="false">
-            Home
-          </a>
-          <ul class="dropdown-menu" >
-            <li><a class="dropdown-item" href="../index.html">Home 1</a></li>
-            <li><a class="dropdown-item" href="index-2.html">Home 2</a></li>
-            <li><a class="dropdown-item" href="index-3.html">Home 3</a></li>
-                   <li><a class="dropdown-item" href="index-4.html">Home 4 <span class="badge bg-light-info text-dark-info ms-1">New</span></a></li>
-
-          </ul>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#"  role="button"
-            data-bs-toggle="dropdown" aria-expanded="false">
-            Shop
-          </a>
-          <ul class="dropdown-menu" >
-            <li><a class="dropdown-item" href="shop-grid.html">Shop Grid - Filter</a></li>
-            <li><a class="dropdown-item" href="shop-grid-3-column.html">Shop Grid - 3 column</a></li>
-            <li><a class="dropdown-item" href="shop-list.html">Shop List - Filter</a></li>
-            <li><a class="dropdown-item" href="shop-filter.html">Shop - Filter</a></li>
-            <li><a class="dropdown-item" href="shop-fullwidth.html">Shop Wide</a></li>
-             <li><a class="dropdown-item" href="shop-single.html">Shop Single</a></li>
-<li><a class="dropdown-item" href="shop-single-2.html">Shop Single v2<span class="badge bg-light-info text-dark-info ms-1">New</span></a></li>
-            <li><a class="dropdown-item" href="shop-wishlist.html">Shop Wishlist</a></li>
-            <li><a class="dropdown-item" href="shop-cart.html">Shop Cart</a></li>
-            <li><a class="dropdown-item" href="shop-checkout.html">Shop Checkout</a></li>
-          </ul>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#"  role="button"
-            data-bs-toggle="dropdown" aria-expanded="false">
-            Stores
-          </a>
-          <ul class="dropdown-menu" >
-            <li><a class="dropdown-item" href="store-list.html">Store List</a></li>
-            <li><a class="dropdown-item" href="store-grid.html">Store Grid</a></li>
-            <li><a class="dropdown-item" href="store-single.html">Store Single</a></li>
-
-          </ul>
-        </li>
-
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#"  role="button"
-            data-bs-toggle="dropdown" aria-expanded="false">
-            Mega Menu
-          </a>
-          <ul class="dropdown-menu" >
-
-            <li class="dropdown-submenu ">
-              <a class="dropdown-item dropdown-list-group-item dropdown-toggle" href="#">
-                Dairy, Bread & Eggs
-              </a>
-              <ul class="dropdown-menu" >
-
-
-                <li><a class="dropdown-item" href="shop-grid.html">Milk Drinks</a></li>
-                <li><a class="dropdown-item" href="shop-grid.html">Curd & Yogurt</a></li>
-                <li> <a class="dropdown-item" href="shop-grid.html">Eggs</a></li>
-                <li><a class="dropdown-item" href="shop-grid.html">Buns & Bakery</a></li>
-                <li><a class="dropdown-item" href="shop-grid.html">Cheese</a></li>
-                <li> <a class="dropdown-item" href="shop-grid.html">Condensed Milk</a></li>
-                <li><a class="dropdown-item" href="shop-grid.html">Dairy Products</a></li>
-
-
-              </ul>
-            </li>
-            <li class="dropdown-submenu ">
-              <a class="dropdown-item dropdown-list-group-item dropdown-toggle" href="#">
-                Vegetables & Fruits
-              </a>
-              <ul class="dropdown-menu" >
-
-
-                <li><a class="dropdown-item" href="shop-grid.html">Vegetables</a></li>
-                <li><a class="dropdown-item" href="shop-grid.html">Fruits</a></li>
-                <li> <a class="dropdown-item" href="shop-grid.html">Exotics & Premium</a></li>
-                <li><a class="dropdown-item" href="shop-grid.html">Fresh Sprouts</a></li>
-                <li><a class="dropdown-item" href="shop-grid.html">Frozen Veg</a></li>
-
-
-
-              </ul>
-            </li>
-            <li class="dropdown-submenu ">
-              <a class="dropdown-item dropdown-list-group-item dropdown-toggle" href="#">
-                Cold Drinks & Juices
-              </a>
-              <ul class="dropdown-menu" >
-
-
-                <li><a class="dropdown-item" href="shop-grid.html">Soft Drinks</a></li>
-                <li><a class="dropdown-item" href="shop-grid.html">Fruit Juices</a></li>
-                <li> <a class="dropdown-item" href="shop-grid.html">Coldpress</a></li>
-                <li><a class="dropdown-item" href="shop-grid.html">Soda & Mixers</a></li>
-                <li><a class="dropdown-item" href="shop-grid.html">Milk Drinks</a></li>
-                <li><a class="dropdown-item" href="shop-grid.html">Health Drinks</a></li>
-                <li><a class="dropdown-item" href="shop-grid.html">Herbal Drinks</a></li>
-
-
-
-              </ul>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#"  role="button"
-            data-bs-toggle="dropdown" aria-expanded="false">
-            Pages
-          </a>
-          <ul class="dropdown-menu" >
-            <li><a class="dropdown-item" href="blog.html">Blog</a></li>
-            <li><a class="dropdown-item" href="blog-single.html">Blog Single</a></li>
-            <li><a class="dropdown-item" href="blog-category.html">Blog Category</a></li>
-            <li><a class="dropdown-item" href="about.html">About us</a></li>
-            <li><a class="dropdown-item" href="404error.html">404 Error</a></li>
-            <li><a class="dropdown-item" href="contact.html">Contact</a></li>
-          </ul>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#"  role="button"
-            data-bs-toggle="dropdown" aria-expanded="false">
-            Account
-          </a>
-          <ul class="dropdown-menu" >
-            <li><a class="dropdown-item" href="signin.html">Sign in</a></li>
-            <li><a class="dropdown-item" href="signup.html">Signup</a></li>
-            <li><a class="dropdown-item" href="forgot-password.html">Forgot Password</a></li>
-            <li class="dropdown-submenu dropend">
-              <a class="dropdown-item dropdown-list-group-item dropdown-toggle" href="#">
-                My Account
-              </a>
-              <ul class="dropdown-menu" >
-                <li><a class="dropdown-item" href="account-orders.html">Orders</a></li>
-                <li><a class="dropdown-item" href="account-settings.html">Settings</a></li>
-                <li><a class="dropdown-item" href="account-address.html">Address</a></li>
-                <li><a class="dropdown-item" href="account-payment-method.html">Payment Method</a></li>
-                <li><a class="dropdown-item" href="account-notification.html">Notification</a></li>
-
-
-              </ul>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item ">
-          <a class="nav-link" href="../dashboard/index.html">
-            Dashboard
-          </a>
-
-        </li>
-        <li class="nav-item dropdown dropdown-flyout">
-          <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            Docs
-          </a>
-          <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown">
-
-              <a class="dropdown-item align-items-start"  href="../docs/index.html">
-
-                  <div>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-text text-primary" viewBox="0 0 16 16">
-                    <path d="M5 4a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1H5zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1H5zm0 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1H5z"/>
-                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"/>
-                  </svg>
-                </div>
-                  <div class="ms-3 lh-1">
-                    <h6 class="mb-1">Documentations</h6>
-                    <p class="mb-0 small">
-                      Browse the all documentation
-                    </p>
-                  </div>
-
-              </a>
-              <a class="dropdown-item align-items-start"
-                href="../docs/changelog.html">
-
-                  <div>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-layers text-primary" viewBox="0 0 16 16">
-                    <path d="M8.235 1.559a.5.5 0 0 0-.47 0l-7.5 4a.5.5 0 0 0 0 .882L3.188 8 .264 9.559a.5.5 0 0 0 0 .882l7.5 4a.5.5 0 0 0 .47 0l7.5-4a.5.5 0 0 0 0-.882L12.813 8l2.922-1.559a.5.5 0 0 0 0-.882l-7.5-4zm3.515 7.008L14.438 10 8 13.433 1.562 10 4.25 8.567l3.515 1.874a.5.5 0 0 0 .47 0l3.515-1.874zM8 9.433 1.562 6 8 2.567 14.438 6 8 9.433z"/>
-                  </svg>
-                  </div>
-                  <div class="ms-3 lh-1">
-                    <h6 class="mb-1">
-                      Changelog <span class="text-primary ms-1">v1.1.0</span>
-                    </h6>
-                    <p class="mb-0 small">See what's new</p>
-                  </div>
-
-
-              </a>
-
-            </div>
-
-        </li>
-      </ul>
-      </div>
-
     </div>
-    </div>
-</nav>
+
+  </nav>
+</div>

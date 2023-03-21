@@ -34,27 +34,12 @@ class SignupForm(forms.Form):
 		'placeholder':'Enter Password', 'class': 'form-control', 'id': 'fakePassword'
 		}))
 
-	def clean_name(self):
-		name = self.cleaned_data.get('name')
-		found_name = User.objects.filter(name=name.lower()).first()
-		if found_name:
-			raise forms.ValidationError('Name Exists')
-		return name.lower()
-
 	def clean_email(self):
 		email = self.cleaned_data.get('email')
 		found_email = User.objects.filter(email=email.lower()).first()
 		if found_email:
 			raise forms.ValidationError('Email Exists')
 		return email.lower()
-
-	def clean_whatsapp_number(self):
-		whatsapp_number = self.cleaned_data.get('whatsapp_number')
-		found_whatsapp_number = User.objects.filter(whatsapp_number=whatsapp_number.lower()).first()
-		if found_whatsapp_number:
-			raise forms.ValidationError('Whatsapp Number Exists')
-		return whatsapp_number.lower()
-
 
 	def clean_password(self):
 		password = self.cleaned_data.get('password')

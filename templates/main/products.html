@@ -1,5 +1,6 @@
 {% extends '../base.html' %}
 {% load static %}
+{% block title %}Products{% endblock %}
 
 {% block content %}
 <main>
@@ -24,13 +25,14 @@
           <div class="card mb-4 bg-light border-0">
             <!-- card body -->
             <div class="card-body p-9">
-              <h2 class="mb-0 fs-1">Products</h2>
+              <h2 class="mb-0 fs-1">{% if request.GET.category %}{{ request.GET.category }}{% else %}Products{% endif %}</h2>{% if seller_name %}<div>Seller - {{ seller_name }}</div>{% endif %}
             </div>
           </div>
           <!-- list icon -->
           <div class="d-flex justify-content-between align-items-center my-4">
             <div class="">
-              <span class="text-dark">24 </span> Products found
+              <span class="text-dark">{{ number_of_products }} </span> Products found
+              <a href="/products">reset</a>
             </div>
             <div class="d-lg-none">
               <a class="btn btn-outline-gray-400 text-muted" data-bs-toggle="offcanvas" href="#offcanvasCategory" role="button" aria-controls="offcanvasCategory"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
@@ -43,21 +45,21 @@
           {% with col=3 %}
             {% include '../include/product_card.html' with col=col %}
           {% endwith%}
-          <div class="mt-8">
-            <div class="">
+          <div class="row mt-8">
+            <div class="col">
                      <!-- nav -->
               <nav>
                 <ul class="pagination">
                   <li class="page-item {% if not products.has_previous %}disabled{% endif %}">
-                    <a class="page-link" href="?page={% if products.has_previous %}{{ products.previous_page_number }}{% else %}1{% endif %}" aria-label="Previous">
+                    <a class="page-link" href="?page={% if products.has_previous %}{{ products.previous_page_number }}{% else %}1{% endif %}{{ url_args }}" aria-label="Previous">
                       <i class="feather-icon icon-chevron-left"></i>
                     </a>
                   </li>
                   {% for page in page_list %}
-                  <li class="page-item "><a class="page-link  {% if page == products.number %}active{% endif %}" href="?page={{ page }}">{{ page }}</a></li>
+                  <li class="page-item "><a class="page-link  {% if page == products.number %}active{% endif %}" href="?page={{ page }}{{ url_args }}">{{ page }}</a></li>
                   {% endfor %}
                   <li class="page-item {% if not products.has_next %}disabled{% endif %}">
-                    <a class="page-link" href="?page={% if products.has_next %}{{ products.next_page_number }}{% else %}1{% endif %}" aria-label="Next">
+                    <a class="page-link" href="?page={% if products.has_next %}{{ products.next_page_number }}{% else %}{{ products.number }}{% endif %}{{ url_args }}" aria-label="Next">
                       <i class="feather-icon icon-chevron-right"></i>
                     </a>
                   </li>
