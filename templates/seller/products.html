@@ -1,0 +1,142 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block title %}Seller Products{% endblock %}
+
+{% block content %}
+ <main class="">
+      <div class="container">
+        <div class="row mb-8">
+        {% with products='active' %}
+          {% include '../include/little_seller_sidebar.html' with products=products %}
+        {% endwith %}
+          <div class="col-lg-9 col-md-8 col-12">
+          <div class="py-6 p-md-6 p-lg-10">
+            <!-- page header -->
+            <div class="d-flex justify-content-between align-items-center pb-4 pt-md-1 pt-1">
+              <!-- heading -->
+              <h2 class="mb-0">Products</h2>
+              <div>
+                <a href="{% url 'seller:create_products' %}" class="btn btn-primary d-md-none d-inline">Add Product</a>
+                <a href="{% url 'seller:create_products' %}" class="btn btn-primary d-md-inline d-none">Add Product</a>
+              <button class="btn btn-outline-gray-400 text-muted d-md-none btn-icon btn-sm ms-3 " type="button"
+              data-bs-toggle="offcanvas" data-bs-target="#offcanvasAccount" aria-controls="offcanvasAccount">
+              <i class="bi bi-text-indent-left fs-3"></i>
+            </button>
+          </div>
+            </div>
+
+        <!-- row -->
+        <div class="row ">
+          <div class="col-xl-12 col-12 mb-5">
+            <!-- card -->
+            <div class="card h-100 card-lg">
+              <!-- card body -->
+              <div class="card-body p-0">
+                <!-- table -->
+                <div class="table-responsive">
+                  <table class="table table-centered table-hover text-nowrap table-borderless mb-0 table-with-checkbox">
+                    <thead class="bg-light">
+                      <tr>
+                        <th>Image</th>
+                        <th>Product Name</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Status</th>
+                        <th>Create at</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for product in products %}
+                      <tr>
+                        <td>
+                          <a href="{% url 'main:product_detail' pk=product.pk %}"> <img src="{{ product.image.url }}" alt=""
+                              class="icon-shape icon-md"></a>
+                        </td>
+                        <td><a href="{% url 'main:product_detail' pk=product.pk %}" class="text-reset">{{ product.name }}</a></td>
+                        <td>{{ product.sub_category.category.name }}</td>
+                        <td>₦{{ product.price }}</td>
+                        <td>
+                          <span class="badge bg-secondary">{{ product.is_approved_status }}</span>
+                        </td>
+                        <td>{{ product.date|date:"F j, Y" }}</td>
+                        <td>
+                          <div class="dropdown">
+                            <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
+                              <i class="feather-icon icon-more-vertical fs-5"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                              <li><a href="#!" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#{{ product.pk }}"><i class="bi bi-trash me-3"></i>Delete</a></li>
+                              <li><a class="dropdown-item" href="{% url 'seller:update_products' pk=product.pk %}"><i class="bi bi-pencil-square me-3 "></i>Edit</a>
+                              </li>
+                            </ul>
+                          </div>
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+
+                </div>
+              </div>
+              <div class=" border-top d-md-flex justify-content-between align-items-center px-6 py-6">
+                <span></span>
+                <nav class="mt-2 mt-md-0">
+                <ul class="pagination">
+                  <li class="page-item {% if not products.has_previous %}disabled{% endif %}">
+                    <a class="page-link" href="?page={% if products.has_previous %}{{ products.previous_page_number }}{% else %}1{% endif %}{{ url_args }}" aria-label="Previous">
+                      <!-- <i class="feather-icon icon-chevron-left"></i> -->
+                      Previous
+                    </a>
+                  </li>
+                  {% for page in page_list %}
+                  <li class="page-item "><a class="page-link  {% if page == products.number %}active{% endif %}" href="?page={{ page }}{{ url_args }}">{{ page }}</a></li>
+                  {% endfor %}
+                  <li class="page-item {% if not products.has_next %}disabled{% endif %}">
+                    <a class="page-link" href="?page={% if products.has_next %}{{ products.next_page_number }}{% else %}{{ products.number }}{% endif %}{{ url_args }}" aria-label="Next">
+                      <!-- <i class="feather-icon icon-chevron-right"></i> -->
+                      Next
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+      </div>
+      </div>
+    </main>
+
+{% for product in products %}
+<div class="modal fade" id="{{ product.pk }}" tabindex="-1" aria-labelledby="{{ product.pk }}Label" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content p-4">
+      <div class="modal-header border-0">
+        <h5 class="modal-title fs-3 fw-bold" id="{{ product.pk }}Label">Delete Product</h5>
+
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-5">
+            You are about to delete <span class="text-danger">{{ product.name }}</span>
+          </div>
+        <button class="btn btn-danger" onclick="event.preventDefault(); this.nextElementSibling.submit();">Continue</button>
+        <form action="{% url 'seller:delete_products' pk=product.pk %}" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="_method" value="DELETE">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+{% with products='active' %}
+  {% include '../include/little_seller_modelbar.html' with products=products %}
+{% endwith %}
+
+{% endblock %}

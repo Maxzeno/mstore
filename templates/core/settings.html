@@ -31,28 +31,21 @@
               <div class="row">
                 <div class="col-lg-5">
                   <!-- form -->
-                  <form action="{% url 'core:user_data' %}" method="post">
+                  <form action="{% url 'core:user_data' %}" method="post" enctype="multipart/form-data">
                   	{% csrf_token %}
                     <!-- input -->
                     <div class="mb-3">
                       <label class="form-label">Name</label>
                       {{ data_form.name }}
-                      {% if data_form.name.errors %}
-		                {% for error in data_form.name.errors %}
-		                  <span class="text-danger small">{{ error }}</span>
-		                {% endfor %}
-		               {% endif %}
                     </div>
                     <!-- input -->
                     <div class="mb-5">
                       <label class="form-label">Whatsapp Number</label>
                       {{ data_form.whatsapp_number }}
-                      {% if data_form.whatsapp_number.errors %}
-		                {% for error in data_form.whatsapp_number.errors %}
-		                  <span class="text-danger small">{{ error }}</span>
-		                {% endfor %}
-		                {% endif %}
-                      
+                    </div>
+                    <div class="mb-5">
+                      <label class="form-label">Image</label>
+                      {{ data_form.image }}
                     </div>
                     <!-- button -->
                     <div class="mb-3">

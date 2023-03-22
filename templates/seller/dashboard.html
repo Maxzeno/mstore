@@ -27,11 +27,10 @@
                       <!-- card -->
                       <div class="card bg-light border-0 rounded-4">
                           <div class="card-body p-lg-12">
-                              <h1>Welcome back! FreshCart
+                              <h1>Welcome back! Nime enterprise
                               </h1>
-                              <p>FreshCart is simple & clean design for developer and
-                                  designer.</p>
-                              <a href="#" class="btn btn-primary">
+                              <p>Nime enterprise shows your products to the world.</p>
+                              <a href="{% url 'seller:create_products' %}" class="btn btn-primary">
                                   Create Product
                               </a>
                           </div>
@@ -134,8 +133,8 @@
                                       <tbody>
                                         {% for order in orders %}
                                           <tr>
-                                              <td>{{ order.id }}</td>
-                                              <td>{{ order.product.name }}</td>
+                                              <td><a href="{% url 'seller:order_detail' pk=order.pk %}" class="text-reset">{{ order.id }}</a></td>
+                                              <td><a href="{% url 'main:product_detail' pk=order.product.pk %}" class="text-reset">{{ order.product.name }}</a></td>
                                               <td>{{ order.date|date:"F j, Y" }}</td>
                                               <td>₦{{ order.product.price }}</td>
                                               <td>

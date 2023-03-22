@@ -8,8 +8,7 @@ from django.contrib.auth.hashers import (
     check_password, is_password_usable, make_password,
 )
 from ckeditor.fields import RichTextField
-
-# from django_summernote.fields import SummernoteTextField
+### from django_summernote.fields import SummernoteTextField
 
 
 import shortuuid
@@ -57,7 +56,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=100, blank=True, null=True)
     email = models.EmailField(unique=True)
     whatsapp_number = models.CharField(max_length=30)
-    image = models.ImageField(upload_to='images/', default='images/NA-removebg.png', blank=True, null=True)
+    image = models.ImageField(upload_to='images/', default='images/person.png', blank=True, null=True)
     _password = ''
     state = models.CharField(max_length=100, blank=True, null=True)
     address = models.CharField(max_length=500, blank=True, null=True)
@@ -162,14 +161,21 @@ class Product(models.Model):
     state = models.CharField(max_length=100, blank=True, null=True)
     image = models.ImageField(upload_to='images/', default='images/NA-removebg.png', blank=True, null=True)
     sub_category = models.ForeignKey(SubCategory, on_delete=models.CASCADE)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.DecimalField(max_digits=12, decimal_places=2)
     seller = models.ForeignKey(User, on_delete=models.CASCADE)
     ordered = models.IntegerField(default=0)
     is_approved = models.BooleanField(default=False)
     date = models.DateTimeField(default=timezone.now)
 
+    # DEFAULT_AUTO_FIELD = 'django.db.models.UUIDField'
+
     def __str__(self):
         return self.name
+
+    def is_approved_status(self):
+        if self.is_approved:
+            return 'Approved'
+        return 'Not Approved'
     
 
 class Order(models.Model):
@@ -179,8 +185,9 @@ class Order(models.Model):
         ('C', 'Cancel'),
     ]
     id = models.CharField(primary_key=True, max_length=10, default=order_id)
-    product = models.ForeignKey(Product, on_delete=models.SET_NULL, blank=True, null=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True)
     buyer = models.ForeignKey(User, on_delete=models.CASCADE)
+    has_paid = models.BooleanField(default=False)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES)
     date = models.DateTimeField(default=timezone.now)
 
@@ -189,6 +196,11 @@ class Order(models.Model):
             if i[0].upper() == self.status.upper():
                 return i[1]
         return ''
+
+    def has_paid_status(self):
+        if self.has_paid:
+            return 'Yes'
+        return 'No'
 
     def __str__(self):
         return self.id

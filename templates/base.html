@@ -38,6 +38,9 @@
     <!-- Theme CSS -->
     <link rel="stylesheet" href="{% static 'assets/css/theme.min.css' %}">
     <link rel="stylesheet" href="{% static 'style.css' %}">
+
+{% block style %}{% endblock %}
+
 </head>
 
 
@@ -69,6 +72,8 @@
   <script src="{% static 'assets/js/vendors/zoom.js' %}"></script>
 <script src="{% static 'assets/js/vendors/increment-value.js' %}"></script>
 <script src="{% static 'main.js' %}"></script>
+
+{% block script %}{% endblock %}
 
 </body>
 

@@ -1,0 +1,87 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block title %}Products{% endblock %}
+
+{% block content %}
+ <main class="">
+      <div class="container">
+        <div class="row mb-8">
+        {% with orders='active' %}
+          {% include '../include/little_seller_sidebar.html' with orders=orders %}
+        {% endwith %}
+          <div class="col-lg-9 col-md-8 col-12">
+          <div class="py-6 p-md-6 p-lg-10">
+            <!-- page header -->
+            <div class="d-flex justify-content-between align-items-center pb-4 pt-md-1 pt-1">
+              <!-- heading -->
+              <h2 class="mb-0">Products</h2>
+              <div>
+                <a href="{% url 'seller:orders' %}" class="btn btn-light d-md-none d-inline">Orders</a>
+                <a href="{% url 'seller:orders' %}" class="btn btn-light d-md-inline d-none">Back Order</a>
+              <button class="btn btn-outline-gray-400 text-muted d-md-none btn-icon btn-sm ms-3 " type="button"
+              data-bs-toggle="offcanvas" data-bs-target="#offcanvasAccount" aria-controls="offcanvasAccount">
+              <i class="bi bi-text-indent-left fs-3"></i>
+            </button>
+          </div>
+            </div>
+
+        <!-- row -->
+        <div class="row ">
+          <div class="col-xl-12 col-12 mb-5">
+            <!-- card -->
+            <div class="card h-100 card-lg">
+              <div class="card-body p-6">
+                <div class="d-md-flex justify-content-between">
+                  <div class="d-flex align-items-center mb-2 mb-md-0">
+                    <h2 class="mb-0">Order ID: {{ order.id }}</h2>
+                    <span class="badge bg-secondary ms-2">{{ order.order_status }}</span>
+                  </div>
+                </div>
+                <div class="mt-8">
+                  <div class="row">
+                    <!-- address -->
+                    <div class="col-lg-4 col-md-4 col-12">
+                      <div class="mb-6">
+                        <h6>Customer Details</h6>
+                        <p class="mb-1 lh-lg">{{ order.buyer.name }}<br>
+                          {{ order.buyer.email }}<br>
+                          {{ order.buyer.whatsapp_number }}</p>
+                      </div>
+                    </div>
+                    <!-- address -->
+                    <div class="col-lg-4 col-md-4 col-12">
+                      <div class="mb-6">
+                        <h6>Shipping Address</h6>
+                        <p class="mb-1 lh-lg">{{ order.buyer.address }}<br>
+                          {{ order.buyer.state }}<br></p>
+
+                      </div>
+                    </div>
+                    <!-- address -->
+                    <div class="col-lg-4 col-md-4 col-12">
+                      <div class="mb-6">
+                        <h6>Order Details</h6>
+                        <p class="mb-1 lh-lg">Order ID: <span class="text-dark">{{ order.id }}</span><br>
+                          Order Date: <span class="text-dark">{{ order.date|date:"F j, Y" }}</span><br>
+                          Order Price: <span class="text-dark">₦{{ order.product.price }}</span></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+      </div>
+      </div>
+    </main>
+
+{% with orders='active' %}
+  {% include '../include/little_seller_modelbar.html' with orders=orders %}
+{% endwith %}
+
+{% endblock %}

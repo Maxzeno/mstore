@@ -49,7 +49,7 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ('name','id')
     exclude = ('ordered',)
     readonly_fields = ('id',)
-    list_filter = ('is_approved', 'sub_category', 'state', 'price', 'seller', 'date')
+    list_filter = ('is_approved', 'sub_category', 'state', 'seller', 'date')
     formfield_overrides = {
         'RichTextField': {'widget': CKEditorWidget}
     }
@@ -57,11 +57,11 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    fields = ('id', 'product', 'buyer', 'status', 'date')
-    list_display = ('id', 'product', 'buyer', 'status', 'date')
+    fields = ('id', 'product', 'buyer', 'has_paid', 'status', 'date')
+    list_display = ('id', 'product', 'buyer', 'has_paid', 'status', 'date')
     search_fields = ('id', 'product', 'buyer')
     readonly_fields = ('id',)
-    list_filter = ('status', 'product', 'buyer', 'date')
+    list_filter = ('status', 'product', 'has_paid', 'buyer', 'date')
 
 
 @admin.register(Email)

@@ -17,7 +17,7 @@ def popular_categories_and_sub():
 		])
 	return {'categories_and_sub': result}
 
-def paginate_page(products, request, error, per_page=12, obj='products', name='page', on_each_side=0, on_ends=1):
+def paginate_page(products, request, error, obj, per_page=12, name='page', on_each_side=0, on_ends=1):
 	paginator = Paginator(products, per_page)
 	page_number = request.GET.get(name)
 

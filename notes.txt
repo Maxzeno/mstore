@@ -1,0 +1,2 @@
+I need to make the search bar on top look good
+i need to work on the product delete in seller products list

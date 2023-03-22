@@ -27,10 +27,10 @@ class Signup(View):
 		form = SignupForm(request.POST)
 
 		if form.is_valid():
-			email = form.cleaned_data.get('email', '')
-			name = form.cleaned_data.get('name', '')
-			whatsapp_number = form.cleaned_data.get('whatsapp_number', '')
-			password = form.cleaned_data.get('password', '')
+			email = form.cleaned_data.get('email', '').strip().lower()
+			name = form.cleaned_data.get('name', '').strip()
+			whatsapp_number = form.cleaned_data.get('whatsapp_number', '').strip()
+			password = form.cleaned_data.get('password', '').strip()
 
 			user = models.User(email=email, name=name, whatsapp_number=whatsapp_number, password=password)
 			user.is_active=False
@@ -102,8 +102,8 @@ class Signin(View):
 		form = SigninForm(request.POST)
 
 		if form.is_valid():
-			email = form.cleaned_data.get('email')
-			password = form.cleaned_data.get('password')
+			email = form.cleaned_data.get('email', '').strip().lower()
+			password = form.cleaned_data.get('password', '').strip()
 			user = models.User.objects.filter(email=email).first()
 			next_url = request.session.pop('next', None)
 

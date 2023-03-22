@@ -119,7 +119,8 @@ if _TRY_LOCAL_DB:
     DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3-1',
+        # 'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
 
@@ -240,7 +241,7 @@ JAZZMIN_SETTINGS = {
     "site_logo": "img/icon nobg-crop.png",
 
     # Logo to use for your site, must be present in static files, used for login form logo (defaults to site_logo)
-    "login_logo": None,
+    "login_logo": 'img/icon-sm nobg.png',
 
     # Logo to use for login form in dark themes (defaults to login_logo)
     "login_logo_dark": None,
@@ -311,7 +312,7 @@ JAZZMIN_SETTINGS = {
     "hide_models": [],
 
     # List of apps (and/or models) to base side menu ordering off of (does not need to contain all apps/models)
-    "order_with_respect_to": ["core.user", "core.product", "core.category", "core.subcategory", "core.address"],
+    "order_with_respect_to": ["core.user", "core.product", "core.order", "core.category", "core.subcategory", "core.address"],
 
     # Custom links to append to app groups, keyed on app name
     # "custom_links": {
@@ -332,6 +333,9 @@ JAZZMIN_SETTINGS = {
         "core.category": "fas fa-plus-square",
         "core.subcategory": "fas fa-minus-square",
         "core.address": "fas fa-map-marker-alt",
+        "core.contactus": "fas fa-phone-alt",
+        "core.email": "fas fa-envelope",
+        "core.order": "fas fa-shopping-cart",
     },
     # Icons that are used when one is not manually specified
     "default_icon_parents": "fas fa-chevron-circle-right",

@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.views import View
 from django.db.utils import IntegrityError
 from django.contrib import messages
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect, QueryDict
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from core.models import Category, SubCategory, Product, User, Email, ContactUs as ContactUsModel
@@ -17,12 +17,18 @@ class Base(View):
 	base_context = {**popular_categories()}
 
 	def get(self, request, *args, **kwargs):
-		request_obj, template, context = self.get_request(request, *args, **kwargs)
+		data = self.get_request(request, *args, **kwargs)
+		if isinstance(data, HttpResponseRedirect):
+			return data
+
+		request_obj, template, context = data
 		context.update(self.base_context)
 		return render(request_obj, template, context)
 
 	def post(self, request, *args, **kwargs):
 		data = self.post_request(request, *args, **kwargs)
+		if isinstance(data, HttpResponseRedirect):
+			return data
 		return render(*data)
 
 
@@ -35,7 +41,13 @@ class Index(Base):
 			no_products = 12
 
 		products = Product.objects.filter(is_approved=True).order_by('ordered')[:no_products]
-		return (request, 'main/index.html', {'products': products, 'email_form': EmailForm()})
+		return (request, 'main/index.html', {'products': products, 'email_form': EmailForm(), 'nav_home': 'green'})
+
+
+class BecomeSeller(Base):
+	def get_request(self, request):
+		return (request, 'main/become_seller.html', {'nav_become_seller': 'green'})
+
 
 
 class ProductDetail(Base):
@@ -51,7 +63,8 @@ class ProductDetail(Base):
 		.filter(Q(sub_category=product.sub_category) & Q(is_approved=True))\
 		.exclude(pk=product.pk).order_by('ordered')[:no_products]
 
-		return (request, 'main/product_detail.html', {'product': product, 'products': related_products})
+		return (request, 'main/product_detail.html', {'product': product, 'products': related_products,'nav_products': 'green'})
+
 
 class Products(Base):
 	def get_request(self, request):
@@ -65,18 +78,18 @@ class Products(Base):
 		seller = None
 		agrs = ''
 
+		has_no_filter_search = False
+
 		if not search:
 
 			if seller_id:
 				seller = User.objects.filter(pk=seller_id).first()
 
-			if category_name and sub_name:
-				category = Category.objects.filter(name=category_name).first()
-				sub_category = SubCategory.objects.filter(Q(name=sub_name) & Q(category=category)).first()
-
-			elif category_name:
+			if category_name:
 				category = Category.objects.filter(name=category_name).first()
 
+				if sub_name:
+					sub_category = SubCategory.objects.filter(Q(name=sub_name) & Q(category=category)).first()
 
 			if sub_category and seller:
 				agrs += f'&category={category_name}&sub={sub_name}&seller={seller_id}'
@@ -94,15 +107,19 @@ class Products(Base):
 				agrs += f'&category={category_name}'
 				the_products = Product.objects.filter(Q(sub_category__category=category) & Q(is_approved=True)).order_by('ordered')
 			else:
+				has_no_filter_search = True
 				the_products = Product.objects.filter(is_approved=True).order_by('ordered')
 		else:
 			the_products = Product.objects.filter(Q(is_approved=True) & Q(name__icontains=search)).order_by('ordered')[:12]
 
 		context = {
-			**paginate_page(the_products, request, Http404),
+			**paginate_page(the_products, request, Http404, obj='products'),
 			**popular_categories_and_sub(),
 			'number_of_products': len(the_products),
 			'url_args': agrs,
+			'nav_products': 'green',
+			'search_term': search,
+			'has_no_filter_search': has_no_filter_search,
 		}
 
 		if seller:
@@ -112,10 +129,74 @@ class Products(Base):
 		return (request, 'main/products.html', context)
 
 
+
+# class Products(Base):
+# 	def get_request(self, request):
+# 		category_name = request.GET.get('category')
+# 		sub_name = request.GET.get('sub')
+# 		seller_id = request.GET.get('seller')
+# 		search = request.GET.get('search')
+
+# 		category = None
+# 		sub_category = None
+# 		seller = None
+# 		agrs = ''
+
+# 		has_no_filter_search = False
+
+# 		if not search:
+
+# 			if seller_id:
+# 				seller = User.objects.filter(pk=seller_id).first()
+
+# 			if category_name:
+# 				category = Category.objects.filter(name=category_name).first()
+
+# 				if sub_name:
+# 					sub_category = SubCategory.objects.filter(Q(name=sub_name) & Q(category=category)).first()
+
+# 			if sub_category and seller:
+# 				agrs += f'&category={category_name}&sub={sub_name}&seller={seller_id}'
+# 				the_products = Product.objects.filter(Q(sub_category=sub_category) & Q(seller=seller) & Q(is_approved=True)).order_by('ordered')
+# 			elif category and seller:
+# 				agrs += f'&category={category_name}&sub={sub_name}&seller={seller_id}'
+# 				the_products = Product.objects.filter(Q(sub_category__category=category) & Q(seller=seller) & Q(is_approved=True)).order_by('ordered')
+# 			elif sub_category:
+# 				agrs += f'&category={category_name}&sub={sub_name}'
+# 				the_products = Product.objects.filter(Q(sub_category=sub_category) & Q(is_approved=True)).order_by('ordered')
+# 			elif seller:
+# 				agrs += f'&seller={seller_id}'
+# 				the_products = Product.objects.filter(Q(seller=seller) & Q(is_approved=True)).order_by('ordered')
+# 			elif category:
+# 				agrs += f'&category={category_name}'
+# 				the_products = Product.objects.filter(Q(sub_category__category=category) & Q(is_approved=True)).order_by('ordered')
+# 			else:
+# 				has_no_filter_search = True
+# 				the_products = Product.objects.filter(is_approved=True).order_by('ordered')
+# 		else:
+# 			the_products = Product.objects.filter(Q(is_approved=True) & Q(name__icontains=search)).order_by('ordered')[:12]
+
+# 		context = {
+# 			**paginate_page(the_products, request, Http404, obj='products'),
+# 			**popular_categories_and_sub(),
+# 			'number_of_products': len(the_products),
+# 			'url_args': agrs,
+# 			'nav_products': 'green',
+# 			'search_term': search,
+# 			'has_no_filter_search': has_no_filter_search,
+# 		}
+
+# 		if seller:
+# 			context['seller'] = seller_id
+# 			context['seller_name'] = seller.name or "N/A"
+
+# 		return (request, 'main/products.html', context)
+
+
 class ContactUs(Base):
 	def get_request(self, request):
 		form = ContactUsForm()
-		return (request, 'main/contact_us.html', {'form': form})
+		return (request, 'main/contact_us.html', {'form': form, 'nav_contact_us': 'green'})
 
 	def post_request(self, request):
 		form = ContactUsForm(request.POST)

@@ -3,6 +3,11 @@ from django.contrib import messages
 from .models import User
 
 
+class ProductDeleteForm(forms.Form):
+	pk = forms.CharField(required=True, label='', max_length=100,  widget=forms.TextInput(attrs={
+		'type': 'hidden'
+		}))
+
 class AddressForm(forms.Form):
 	state = forms.CharField(required=True, label='', max_length=100,  widget=forms.TextInput(attrs={
 		'placeholder':'State', 'class': 'form-control'
@@ -33,6 +38,10 @@ class UserDataForm(forms.Form):
 	whatsapp_number = forms.CharField(required=True, label='', max_length=30,  widget=forms.TextInput(attrs={
 		'placeholder':'Whatsapp', 'class': 'form-control'
 		}))
+	
+	image = forms.ImageField(required=False, label='', widget=forms.FileInput(attrs={
+		'class': 'form-control'
+	}))
 
 	def clean_name(self):
 		name = self.cleaned_data.get('name')

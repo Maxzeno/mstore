@@ -32,7 +32,7 @@
           <div class="d-flex justify-content-between align-items-center my-4">
             <div class="">
               <span class="text-dark">{{ number_of_products }} </span> Products found
-              <a href="/products">reset</a>
+              {% if not has_no_filter_search %}<a href="/products">reset</a>{% endif %}
             </div>
             <div class="d-lg-none">
               <a class="btn btn-outline-gray-400 text-muted" data-bs-toggle="offcanvas" href="#offcanvasCategory" role="button" aria-controls="offcanvasCategory"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
@@ -52,7 +52,8 @@
                 <ul class="pagination">
                   <li class="page-item {% if not products.has_previous %}disabled{% endif %}">
                     <a class="page-link" href="?page={% if products.has_previous %}{{ products.previous_page_number }}{% else %}1{% endif %}{{ url_args }}" aria-label="Previous">
-                      <i class="feather-icon icon-chevron-left"></i>
+                      <!-- <i class="feather-icon icon-chevron-left"></i> -->
+                      Previous
                     </a>
                   </li>
                   {% for page in page_list %}
@@ -60,7 +61,8 @@
                   {% endfor %}
                   <li class="page-item {% if not products.has_next %}disabled{% endif %}">
                     <a class="page-link" href="?page={% if products.has_next %}{{ products.next_page_number }}{% else %}{{ products.number }}{% endif %}{{ url_args }}" aria-label="Next">
-                      <i class="feather-icon icon-chevron-right"></i>
+                      <!-- <i class="feather-icon icon-chevron-right"></i> -->
+                      Next
                     </a>
                   </li>
                 </ul>

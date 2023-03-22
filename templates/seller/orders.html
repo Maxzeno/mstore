@@ -1,0 +1,105 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block title %}Seller Orders{% endblock %}
+
+{% block content %}
+ <main class="">
+      <div class="container">
+        <div class="row mb-8">
+        {% with orders='active' %}
+          {% include '../include/little_seller_sidebar.html' with orders=orders %}
+        {% endwith %}
+          <div class="col-lg-9 col-md-8 col-12">
+          <div class="py-6 p-md-6 p-lg-10">
+            <!-- page header -->
+            <div class="d-flex justify-content-between align-items-center pb-4 pt-md-1 pt-1">
+              <!-- heading -->
+              <h2 class="mb-0">Seller Orders</h2>
+              <button class="btn btn-outline-gray-400 text-muted d-md-none btn-icon btn-sm ms-3 " type="button"
+              data-bs-toggle="offcanvas" data-bs-target="#offcanvasAccount" aria-controls="offcanvasAccount">
+              <i class="bi bi-text-indent-left fs-3"></i>
+            </button>
+            </div>
+
+        <!-- row -->
+        <div class="row ">
+          <div class="col-xl-12 col-12 mb-5">
+            <!-- card -->
+            <div class="card h-100 card-lg">
+              <!-- card body -->
+              <div class="card-body p-0">
+                <!-- table -->
+                <div class="table-responsive">
+                  <table class="table table-centered table-hover text-nowrap table-borderless mb-0 table-with-checkbox">
+                    <thead class="bg-light">
+                      <tr>
+                        <th>Image</th>
+                        <th>Order Id</th>
+                        <th>Customer</th>
+                        <th>Date</th>
+                        <th>Has Paid</th>
+                        <th>Status</th>
+                        <th>Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for order in orders %}
+                      <tr>
+                        <td>
+                          <a href="{% url 'seller:order_detail' pk=order.pk %}"> <img src="{{ order.product.image.url }}" alt=""
+                              class="icon-shape icon-md"></a>
+                        </td>
+                        <td><a href="{% url 'seller:order_detail' pk=order.pk %}" class="text-reset">{{ order.id }}</a></td>
+                        <td>{{ order.buyer.name|default:'-' }}</td>
+
+                        <td>{{ order.date|date:"F j, Y" }}</td>
+                        <td>{{ order.has_paid_status }}</td>
+
+                        <td>
+                          <span class="badge bg-secondary">{{ order.order_status }}</span>
+                        </td>
+                        <td>₦{{ order.product.price }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+
+                </div>
+              </div>
+              <div class=" border-top d-md-flex justify-content-between align-items-center px-6 py-6">
+                <span></span>
+                <nav class="mt-2 mt-md-0">
+                <ul class="pagination">
+                  <li class="page-item {% if not products.has_previous %}disabled{% endif %}">
+                    <a class="page-link" href="?page={% if products.has_previous %}{{ products.previous_page_number }}{% else %}1{% endif %}{{ url_args }}" aria-label="Previous">
+                      <!-- <i class="feather-icon icon-chevron-left"></i> -->
+                      Previous
+                    </a>
+                  </li>
+                  {% for page in page_list %}
+                  <li class="page-item "><a class="page-link  {% if page == products.number %}active{% endif %}" href="?page={{ page }}{{ url_args }}">{{ page }}</a></li>
+                  {% endfor %}
+                  <li class="page-item {% if not products.has_next %}disabled{% endif %}">
+                    <a class="page-link" href="?page={% if products.has_next %}{{ products.next_page_number }}{% else %}{{ products.number }}{% endif %}{{ url_args }}" aria-label="Next">
+                      <!-- <i class="feather-icon icon-chevron-right"></i> -->
+                      Next
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+      </div>
+      </div>
+    </main>
+
+{% with orders='active' %}
+  {% include '../include/little_seller_modelbar.html' with orders=orders %}
+{% endwith %}
+
+{% endblock %}

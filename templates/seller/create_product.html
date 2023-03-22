@@ -1,0 +1,113 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block title %}Create Product{% endblock %}
+
+{% block style %}
+<script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+<script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+<main class="">
+      <!-- container -->
+      <div class="container">
+        <!-- row -->
+        <div class="row mb-8">
+                  {% with products='active' %}
+          {% include '../include/little_seller_sidebar.html' with products=products %}
+        {% endwith %}
+          <div class="col-lg-9 col-md-8 col-12">
+          <div class="py-6 p-md-6 p-lg-10">
+            <div class="d-flex justify-content-between align-items-center pb-4 pt-md-1 pt-1">
+              <!-- heading -->
+              <h2 class="mb-0">Add <span class="d-md-inline d-none">New</span> Product</h2>
+              <div>
+                <a href="{% url 'seller:products' %}" class="btn btn-light d-md-none d-inline">Products</a>
+                <a href="{% url 'seller:products' %}" class="btn btn-light d-md-inline d-none">Back Product</a>
+              <button class="btn btn-outline-gray-400 text-muted d-md-none btn-icon btn-sm ms-3 " type="button"
+              data-bs-toggle="offcanvas" data-bs-target="#offcanvasAccount" aria-controls="offcanvasAccount">
+              <i class="bi bi-text-indent-left fs-3"></i>
+            </button>
+          </div>
+
+            </div>
+
+
+        <!-- row -->
+        <div class="row">
+
+          <div class="col-12">
+            <!-- card -->
+            <div class="card mb-6 card-lg">
+              <!-- card body -->
+              <div class="card-body p-6 ">
+                <h4 class="mb-4 h5">Product Information</h4>
+                <form action="{% url 'seller:create_products' %}" method="post" enctype="multipart/form-data">
+                  {% csrf_token %}
+                <div class="row">
+                  <!-- input -->
+                  <div class="mb-3 col-lg-6">
+                    <label class="form-label">Name</label>
+                    {{ form.name }}
+                  </div>
+                  <!-- input -->
+                  <div class="mb-3 col-lg-6">
+                    <label class="form-label">Sub Category</label>
+                    {{ form.sub_category }}
+                  </div>
+                  <!-- input -->
+                  <div class="mb-3 col-lg-6">
+                    <label class="form-label">State</label>
+                    {{ form.state }}
+                  </div>
+                  <!-- input -->
+                  <div class="mb-3 col-lg-6">
+                    <label class="form-label">Price</label>
+                    {{ form.price }}
+                  </div>
+                  <div>
+                    <div class="mb-3 col-lg-12 mt-5">
+                      <!-- heading -->
+                      <h4 class="mb-3 h5">Product Images</h4>
+
+                      {{ form.image }}
+                    </div>
+                  </div>
+                  <!-- input -->
+                  <div class="mb-3 col-lg-12 mt-5">
+                    <h4 class="mb-3 h5">Product Descriptions</h4>
+                    {{ form.description }}
+                  </div>
+                  <div class="">
+                    <button type="submit" class="btn btn-primary">
+                      Create Product
+                    </button>
+                  </div>
+                </div>
+              </form>
+              </div>
+            </div>
+
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+    </main>
+
+
+{% with products='active' %}
+  {% include '../include/little_seller_modelbar.html' with products=products %}
+{% endwith %}
+
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    // Initialize CKEditor on the content field
+    CKEDITOR.replace('id_description');
+  </script>
+{% endblock %}

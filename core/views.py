@@ -16,14 +16,14 @@ def error_404(request, exception):
 class Orders(LoginRequiredMixin, Base):
 	def get_request(self, request):
 		orders = Order.objects.filter(buyer=request.user.id)
-		return (request, 'core/orders.html', {'orders': orders})
+		return (request, 'core/orders.html', {'orders': orders, 'nav_account': 'green'})
 
 
 class Address(LoginRequiredMixin, Base):
 	def get_request(self, request):
 		user = request.user
 		address_form = AddressForm({'state': user.state, 'address': user.address})
-		return (request, 'core/address.html', {'address_form': address_form})
+		return (request, 'core/address.html', {'address_form': address_form, 'nav_account': 'green'})
 
 
 class UserAddress(LoginRequiredMixin, View):
@@ -47,10 +47,9 @@ class UserAddress(LoginRequiredMixin, View):
 class Settings(LoginRequiredMixin, Base):
 	def get_request(self, request):
 		user = request.user
-		data_form = UserDataForm({'name': user.name, 'whatsapp_number': user.whatsapp_number})
+		data_form = UserDataForm({'name': user.name, 'whatsapp_number': user.whatsapp_number, 'image': user.image, })
 		password_form = UserPasswordForm(user=user)
-		print(user, 'this is user')
-		return (request, 'core/settings.html', {'data_form': data_form, 'password_form': password_form})
+		return (request, 'core/settings.html', {'data_form': data_form, 'password_form': password_form, 'nav_account': 'green'})
 
 
 class UserData(LoginRequiredMixin, View):
@@ -58,11 +57,13 @@ class UserData(LoginRequiredMixin, View):
 		return redirect(reverse('core:settings'))
 
 	def post(self, request):
-		form = UserDataForm(request.POST)
+		form = UserDataForm(request.POST, request.FILES)
 		if form.is_valid():
 			user = User.objects.get(pk=request.user.id)
 			user.name = form.cleaned_data.get('name')
 			user.whatsapp_number = form.cleaned_data.get('whatsapp_number')
+			if form.cleaned_data.get('image'):
+				user.image = form.cleaned_data.get('image')
 			user.save()
 			messages.success(request, 'User data updated')
 			return redirect(reverse('core:settings'))

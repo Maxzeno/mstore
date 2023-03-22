@@ -1,5 +1,11 @@
 {% load static %}
-
+  {% if messages %}
+  {% for message in messages %}
+    <div class="alert {% if message.tags %} alert-{{ message.tags }} {% endif %} my-0 rounded-0 text-center" role="alert">
+    {{ message }}
+    </div>
+  {% endfor %}
+  {% endif %}
 <div class="border-bottom shadow-sm">
   <nav class="navbar navbar-light py-2">
     <div class="container justify-content-center justify-content-lg-between">
