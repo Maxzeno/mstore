@@ -82,8 +82,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django_user_agents.middleware.UserAgentMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'mstore.urls'
@@ -119,7 +119,8 @@ if _TRY_LOCAL_DB:
     DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3-1',
+        'NAME': BASE_DIR / 'db.sqlite3-2',
+        # 'NAME': BASE_DIR / 'db.sqlite3-1',
         # 'NAME': BASE_DIR / 'db.sqlite3',
         }
     }

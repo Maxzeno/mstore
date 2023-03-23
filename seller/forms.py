@@ -19,7 +19,7 @@ class ProductForm(forms.Form):
 	}))
 	try:
 		MY_CHOICES = [ [i.id, i.name] for i in SubCategory.objects.all() ]
-	except db.utils.ProgrammingError:
+	except (db.utils.ProgrammingError, db.utils.OperationalError):
 		MY_CHOICES = [[]]
 
 	sub_category = forms.ChoiceField(required=True, choices=[['', 'Select an option']]+MY_CHOICES, initial='', widget=forms.Select(attrs={

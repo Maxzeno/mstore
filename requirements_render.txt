@@ -26,3 +26,4 @@ ua-parser==0.16.1
 user-agents==2.2.0
 webencodings==0.5.1
 whitenoise==6.4.0
+mysqlclient
