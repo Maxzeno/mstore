@@ -7,7 +7,7 @@ def subtract(value, arg):
 	return int(value) - int(arg)
 
 
-@register.filter(name='format_number')
+@register.filter(name='format_price')
 def format_number(value):
     if not value:
         return ''

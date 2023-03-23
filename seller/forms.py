@@ -1,4 +1,5 @@
 from django import forms
+from django import db
 from django.contrib import messages
 from ckeditor.widgets import CKEditorWidget
 from core.models import SubCategory
@@ -16,8 +17,10 @@ class ProductForm(forms.Form):
 	price = forms.CharField(required=True, label='', max_length=100,  widget=forms.NumberInput(attrs={
 		'placeholder':'Price', 'class': 'form-control'
 	}))
-
-	MY_CHOICES = [ [i.id, i.name] for i in SubCategory.objects.all() ]
+	try:
+		MY_CHOICES = [ [i.id, i.name] for i in SubCategory.objects.all() ]
+	except db.utils.ProgrammingError:
+		MY_CHOICES = [[]]
 
 	sub_category = forms.ChoiceField(required=True, choices=[['', 'Select an option']]+MY_CHOICES, initial='', widget=forms.Select(attrs={
 		'placeholder':'Price', 'class': 'form-select'

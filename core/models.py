@@ -184,11 +184,12 @@ class Order(models.Model):
         ('P', 'Pending'),
         ('C', 'Cancel'),
     ]
+
     id = models.CharField(primary_key=True, max_length=10, default=order_id)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True)
     buyer = models.ForeignKey(User, on_delete=models.CASCADE)
     has_paid = models.BooleanField(default=False)
-    status = models.CharField(max_length=1, choices=STATUS_CHOICES)
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
     date = models.DateTimeField(default=timezone.now)
 
     def order_status(self):

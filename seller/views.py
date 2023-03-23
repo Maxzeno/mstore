@@ -17,7 +17,7 @@ from utils import paginate_page
 class Dashboard(SellerRequiredMixin, Base):
 	def get_request(self, request):
 		num_products = Product.objects.filter(seller=request.user.id).count()
-		orders = Order.objects.filter(product__seller=request.user.id)
+		orders = Order.objects.filter(product__seller=request.user.id)[:5]
 		num_buyers = orders.values('buyer').distinct().count()
 
 		return (request, 'seller/dashboard.html', {
@@ -63,7 +63,7 @@ class DeleteProduct(SellerRequiredMixin, Base):
 
 class Products(SellerRequiredMixin, Base):
 	def get_request(self, request):
-		products = Product.objects.filter(seller=request.user.id)
+		products = Product.objects.filter(seller=request.user.id).order_by('ordered')
 		return (request, 'seller/products.html', {
 			**paginate_page(products, request, Http404, obj='products'),
 			'nav_seller': 'green',

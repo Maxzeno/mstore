@@ -25,7 +25,19 @@
           <div class="card mb-4 bg-light border-0">
             <!-- card body -->
             <div class="card-body p-9">
-              <h2 class="mb-0 fs-1">{% if request.GET.category %}{{ request.GET.category }}{% else %}Products{% endif %}</h2>{% if seller_name %}<div>Seller - {{ seller_name }}</div>{% endif %}
+              <h2 class="mb-0 fs-1">{% if request.GET.category %}{{ request.GET.category }}{% else %}Products{% endif %}</h2>
+              {% if seller %}
+              <div class="mt-3">
+                <div class="ellipsis-oneline">
+                  <a href="?seller={{ seller.id }}" class="text-nature">
+                    <img src="{{ seller.image.url }}" alt="" class="avatar avatar-md rounded-circle">
+                  {{ seller.name }}</a>
+                </div>
+                <div class="mt-4">
+                  {{ seller.description|default:'' }}
+                </div>
+              </div>
+              {% endif %}
             </div>
           </div>
           <!-- list icon -->
@@ -74,7 +86,6 @@
       </div>
     </div>
   </div>
-
-
 </main>
+
 {% endblock %}

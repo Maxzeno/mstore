@@ -1,35 +1,5 @@
 {% load static %}
 {% load custom_filters %}
-<!-- 
-<div class="row g-4 row-cols-lg-{{ col }} row-cols-{{ col|subtract:2 }} row-cols-md-{{ col|subtract:1}}">
-          {% for product in products %}
-          <div class="col">
-            <div class="card card-product">
-              <div class="card-body">
-
-                <div class="text-center position-relative ">
-                  <a href="{% url 'main:product_detail' product.id %}"> <img src="{{ product.image.url }}" alt="{{ product.name }}"
-                      class="mb-3 img-fluid" style="height: 200px"></a>
-                </div>
-                <div class="text-small mb-1"><a href="{% url 'main:product_detail' product.id %}" class="text-decoration-none text-muted"><small>{{ product.sub_category.category.name }}</small></a></div>
-                <h2 class="fs-6"><a href="{% url 'main:product_detail' product.id %}" class="text-inherit text-decoration-none">{{ product.name }}</a></h2>
-                <div class="d-flex justify-content-between align-items-center mt-3">
-                  <div><span class="text-dark">{{ product.state|default:"N/A" }}</span>
-                  </div>
-                </div>
-                <div class="d-flex justify-content-between align-items-center mt-4">
-                    <span class="text-dark">₦{{ product.price|format_number }}</span>
-                    <a href="#" class="btn btn-primary rounded-pill">Order</a>
-                 </div>
-
-              </div>
-            </div>
-          </div>
-          {% endfor %}
-      </div>
-       -->
-
-
 
 
 <div class="row g-4 row-cols-lg-{{ col }} row-cols-{{ col|subtract:2 }} row-cols-md-{{ col|subtract:1}}">
@@ -37,32 +7,41 @@
     <div class="col">
         <div class="card card-product">
             <div class="card-body">
+              {% if not request.GET.seller %}
+              <div class="ellipsis-oneline">
+                <a href="products?seller={{ product.seller.id }}" class="text-nature">
+                  <img src="{{ product.seller.image.url }}" alt="" class="avatar avatar-sm rounded-circle">
+                {{ product.seller.name }}</a>
+              </div>
+              {% endif %}
+
+              <a href="{% url 'main:product_detail' product.id %}"
+                        class="text-inherit text-decoration-none">
                 <div class="text-center position-relative">
-                    <a href="{% url 'main:product_detail' product.id %}">
-                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="mb-3 img-fluid"
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="mb-3 img-fluid"
                             style="height: 200px">
-                    </a>
                 </div>
-                <div class="text-small mb-1">
+
+                <!-- <div class="text-small mb-1">
                     <a href="{% url 'main:product_detail' product.id %}"
                         class="text-decoration-none text-muted">
                         <small class="ellipsis-oneline">{{ product.sub_category.category.name }}</small>
                     </a>
+                </div> -->
+
+                <div class="d-flex align-items-center mt-3 text-muted">
+                      <i class="bi bi-geo-alt-fill me-1"></i>
+                      <span class="text-dark ellipsis-oneline">{{ product.state|default:"N/A" }}</span>
                 </div>
-                <h2 class="fs-6">
-                    <a href="{% url 'main:product_detail' product.id %}"
-                        class="text-inherit text-decoration-none">
-                        <div class="ellipsis-oneline">{{ product.name }}</div>
-                    </a>
+                <h2 class="fs-6 mt-2">
+                    <div class="ellipsis-oneline">{{ product.name }}</div>
                 </h2>
-                <div class="d-flex justify-content-between align-items-center mt-3">
-                    <div>
-                        <span class="text-dark ellipsis-oneline">{{ product.state|default:"N/A" }}</span>
-                    </div>
-                </div>
+              </a>
+                
+                
                 <div class="d-flex justify-content-between align-items-center mt-4">
-                    <span class="text-dark ellipsis-oneline">₦{{ product.price|format_number }}</span>
-                    <a href="#" class="btn btn-primary rounded-pill">Order</a>
+                    <span class="text-dark ellipsis-oneline">₦{{ product.price|format_price }}</span>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#{{ product.pk }}" class="btn btn-primary rounded-pill">Order</a>
                 </div>
             </div>
         </div>
@@ -72,3 +51,30 @@
 
 
 
+{% for product in products %}
+<div class="modal fade" id="{{ product.pk }}" tabindex="-1" aria-labelledby="{{ product.pk }}Label" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content p-4">
+      <div class="modal-header border-0">
+        <h5 class="modal-title fs-3 fw-bold" id="{{ product.pk }}Label">Order Product</h5>
+
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="text-center position-relative">
+          <img src="{{ product.image.url }}" alt="{{ product.name }}" class="mb-3 img-fluid"
+          style="height: 200px">
+        </div>
+        <div class="mb-5">
+            You are about to order <span class="text-primary">{{ product.name }}</span>
+          </div>
+        <button class="btn btn-primary" onclick="event.preventDefault(); this.nextElementSibling.submit();">Continue</button>
+        <form action="{% url 'core:order_create' pk=product.pk %}" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="_method" value="DELETE">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}

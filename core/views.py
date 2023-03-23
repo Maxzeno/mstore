@@ -1,16 +1,35 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views import View
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import User, Order
+from .models import User, Order, Product
 from .forms import UserDataForm, UserPasswordForm, AddressForm
 from main.views import Base
 # Create your views here.
 
-def error_404(request, exception):
-    return render(request, 'main/404.html', {})
+
+class OrderCreate(LoginRequiredMixin, Base):
+	def get_request(self, request, pk):
+		return redirect(reverse('core:order_detail', kwargs={'pk': pk}))
+
+	def post_request(self, request, pk):
+		product = get_object_or_404(Product, pk=pk)
+		product.ordered += 1
+		product.save()
+		order = Order.objects.create(buyer=request.user, product=product)
+		return redirect(reverse('core:order_detail', kwargs={'pk':order.pk}))
+
+
+class OrderDetail(LoginRequiredMixin, Base):
+	def get_request(self, request, pk):
+		""" This order details creates an order if given product id"""
+		order = Order.objects.filter(pk=pk).first()
+		if order:
+			return (request, 'core/order_detail.html', {'order': order, 'nav_account': 'green'})
+		messages.warning(request, 'Click order if you want to continue your request')
+		return redirect(reverse('main:product_detail', kwargs={'pk': pk}))
 
 
 class Orders(LoginRequiredMixin, Base):

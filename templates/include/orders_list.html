@@ -1,0 +1,47 @@
+{% load static %}
+{% load custom_filters %}
+
+ <div class="table-responsive">
+  <table class="table table-centered table-hover text-nowrap table-borderless mb-0 table-with-checkbox">
+    <thead class="bg-light">
+      <tr>
+        <th>Image</th>
+        <th>Product</th>
+        <th>Order</th>
+        <th>Customer</th>
+        <th>Date</th>
+        <th>Has Paid</th>
+        <th>Status</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in orders %}
+      <tr>
+        <td class="align-middle border-top-0 w-0">
+          <a href="{% url 'main:product_detail' pk=order.product.pk %}"><img src="{{ order.product.image.url }}" alt="{{ order.product.name }}"
+              class="icon-shape icon-xl"></a>
+
+        </td>
+        <td class="align-middle border-top-0">
+            <h6 class="mb-0">
+              <a href="{% url 'main:product_detail' pk=order.product.pk %}" class="text-reset">{{ order.product.name }}</a>
+            </h6>
+
+        </td>
+        <td><a href="{% url 'seller:order_detail' pk=order.pk %}" class="text-reset">{{ order.id }}</a></td>
+        <td>{{ order.buyer.name|default:'-' }}</td>
+
+        <td>{{ order.date|date:"F j, Y" }}</td>
+        <td>{{ order.has_paid_status }}</td>
+
+        <td>
+          <span class="badge bg-secondary">{{ order.order_status }}</span>
+        </td>
+        <td>₦{{ order.product.price|format_price }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</div>

@@ -1,5 +1,6 @@
 {% extends '../base.html' %}
 {% load static %}
+{% load custom_filters %}
 {% block title %}Orders{% endblock %}
 
 {% block content %}
@@ -46,17 +47,20 @@
                   {% for order in orders %}
                   <tr>
                     <td class="align-middle border-top-0 w-0">
-                      <a href="#"> <img src="{{ order.product.image.url }}" alt="{{ order.product.name }}"
+                      <a href="{% url 'main:product_detail' pk=order.product.pk %}"><img src="{{ order.product.image.url }}" alt="{{ order.product.name }}"
                           class="icon-shape icon-xl"></a>
 
                     </td>
                     <td class="align-middle border-top-0">
-                        <h6 class="mb-0">{{ order.product.name }}</h6>
+                        <h6 class="mb-0">
+                          <a href="{% url 'main:product_detail' pk=order.product.pk %}" class="text-reset">{{ order.product.name }}</a>
+                        </h6>
 
                     </td>
                     <td class="align-middle border-top-0">
-                      {{ order.id }}
-
+                      <a href="{% url 'core:order_detail' pk=order.pk %}" class="text-reset">
+                        {{ order.id }}
+                      </a>
                     </td>
                     <td class="align-middle border-top-0">
                       {{ order.date|date:"F j, Y" }}
@@ -66,7 +70,7 @@
                       <span class="badge bg-secondary">{{ order.order_status }}</span>
                     </td>
                     <td class="align-middle border-top-0">
-                      ₦{{ order.product.price }}
+                      ₦{{ order.product.price|format_price }}
                     </td>
                   </tr>
                   {% endfor %}

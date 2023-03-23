@@ -13,6 +13,13 @@ from .forms import EmailForm, ContactUsForm
 # Create your views here.
 
 
+def error_404(request, exception):
+    return render(request, 'main/404.html', status=404)
+
+# def error_500(request):
+    # return render(request, 'main/500.html', status=500)
+
+
 class Base(View):
 	base_context = {**popular_categories()}
 
@@ -120,11 +127,8 @@ class Products(Base):
 			'nav_products': 'green',
 			'search_term': search,
 			'has_no_filter_search': has_no_filter_search,
+			'seller': seller,
 		}
-
-		if seller:
-			context['seller'] = seller_id
-			context['seller_name'] = seller.name or "N/A"
 
 		return (request, 'main/products.html', context)
 

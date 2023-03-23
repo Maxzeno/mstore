@@ -19,3 +19,12 @@
 	top:50%;
 	transform:translateY(-50%)
 }
+
+/*makes a text to by cut short if it's more than a line and it adds ...*/
+.ellipsis-oneline {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

@@ -19,7 +19,7 @@
                 <ul class="nav flex-column ms-3">
                   {% for sub in category_and_sub.1 %}
                     <!-- nav item -->
-                    <li class="nav-item"><a href="?category={{ category_and_sub.0 }}&sub={{ sub }}&seller={{ seller }}" class="nav-link {% if sub == request.GET.sub %}green{% endif %}" onclick="refreshPage('{{ category_and_sub.0 }}', '{{ sub }}', '{{ seller }}')">{{ sub }}</a></li>
+                    <li class="nav-item"><a href="?category={{ category_and_sub.0 }}&sub={{ sub }}&seller={{ seller.pk }}" class="nav-link {% if sub == request.GET.sub %}green{% endif %}" onclick="refreshPage('{{ category_and_sub.0 }}', '{{ sub }}', '{{ seller.pk }}')">{{ sub }}</a></li>
                   {% endfor %}
                 </ul>
               </div>

@@ -1,5 +1,6 @@
 {% extends '../base.html' %}
 {% load static %}
+{% load custom_filters %}
 {% block title %}Seller Orders{% endblock %}
 
 {% block content %}
@@ -29,42 +30,7 @@
               <!-- card body -->
               <div class="card-body p-0">
                 <!-- table -->
-                <div class="table-responsive">
-                  <table class="table table-centered table-hover text-nowrap table-borderless mb-0 table-with-checkbox">
-                    <thead class="bg-light">
-                      <tr>
-                        <th>Image</th>
-                        <th>Order Id</th>
-                        <th>Customer</th>
-                        <th>Date</th>
-                        <th>Has Paid</th>
-                        <th>Status</th>
-                        <th>Amount</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {% for order in orders %}
-                      <tr>
-                        <td>
-                          <a href="{% url 'seller:order_detail' pk=order.pk %}"> <img src="{{ order.product.image.url }}" alt=""
-                              class="icon-shape icon-md"></a>
-                        </td>
-                        <td><a href="{% url 'seller:order_detail' pk=order.pk %}" class="text-reset">{{ order.id }}</a></td>
-                        <td>{{ order.buyer.name|default:'-' }}</td>
-
-                        <td>{{ order.date|date:"F j, Y" }}</td>
-                        <td>{{ order.has_paid_status }}</td>
-
-                        <td>
-                          <span class="badge bg-secondary">{{ order.order_status }}</span>
-                        </td>
-                        <td>₦{{ order.product.price }}</td>
-                      </tr>
-                      {% endfor %}
-                    </tbody>
-                  </table>
-
-                </div>
+               {% include '../include/orders_list.html' %}
               </div>
               <div class=" border-top d-md-flex justify-content-between align-items-center px-6 py-6">
                 <span></span>

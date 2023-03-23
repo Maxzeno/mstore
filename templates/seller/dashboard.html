@@ -1,5 +1,6 @@
 {% extends '../base.html' %}
 {% load static %}
+{% load custom_filters %}
 {% block title %}Seller Dashboard{% endblock %}
 
 {% block content %}
@@ -114,37 +115,12 @@
                       <div class="card h-100 card-lg">
                           <!-- heading -->
                           <div class="p-6">
-                              <h3 class="mb-0 fs-5">Recent Order</h3>
+                              <h3 class="mb-0 fs-5">Recent Orders</h3>
                           </div>
                           <div class="card-body p-0">
                               <!-- table -->
-                              <div class="table-responsive">
-                                  <table class="table table-centered table-borderless text-nowrap table-hover">
-                                      <thead class="bg-light">
-                                          <tr>
-                                              <th scope="col">Order Number</th>
-                                              <th scope="col">Product Name</th>
-                                              <th scope="col">Order Date</th>
-                                              <th scope="col">Price</th>
-                                              <th scope="col">Status</th>
-
-                                          </tr>
-                                      </thead>
-                                      <tbody>
-                                        {% for order in orders %}
-                                          <tr>
-                                              <td><a href="{% url 'seller:order_detail' pk=order.pk %}" class="text-reset">{{ order.id }}</a></td>
-                                              <td><a href="{% url 'main:product_detail' pk=order.product.pk %}" class="text-reset">{{ order.product.name }}</a></td>
-                                              <td>{{ order.date|date:"F j, Y" }}</td>
-                                              <td>₦{{ order.product.price }}</td>
-                                              <td>
-                                                  <span class="badge bg-secondary">{{ order.order_status }}</span>
-                                              </td>
-                                          </tr>
-                                          {% endfor %}
-                                      </tbody>
-                                  </table>
-                              </div>
+                            {% include '../include/orders_list.html' %}
+                              
                           </div>
                       </div>
                   </div>

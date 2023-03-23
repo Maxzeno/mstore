@@ -1,5 +1,6 @@
 {% extends '../base.html' %}
 {% load static %}
+{% load custom_filters %}
 {% block title %}Seller Products{% endblock %}
 
 {% block content %}
@@ -55,7 +56,7 @@
                         </td>
                         <td><a href="{% url 'main:product_detail' pk=product.pk %}" class="text-reset">{{ product.name }}</a></td>
                         <td>{{ product.sub_category.category.name }}</td>
-                        <td>₦{{ product.price }}</td>
+                        <td>₦{{ product.price|format_price }}</td>
                         <td>
                           <span class="badge bg-secondary">{{ product.is_approved_status }}</span>
                         </td>
@@ -121,6 +122,10 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+        <div class="text-center position-relative">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="mb-3 img-fluid"
+                    style="height: 200px">
+        </div>
         <div class="mb-5">
             You are about to delete <span class="text-danger">{{ product.name }}</span>
           </div>
