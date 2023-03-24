@@ -6,7 +6,7 @@
         <h6 class="mb-4">Categories</h6>
         <div class="text-center">
               {% for category in categories %}
-              <a href="#" class="me-4 text-nature">{{ category.name }}</a>
+              <a href="/products?category={{ category }}" class="me-4 text-nature">{{ category.name }}</a>
               {% endfor %}
           </div>
       </div>

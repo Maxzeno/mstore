@@ -119,7 +119,8 @@ if _TRY_LOCAL_DB:
     DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3-2',
+        'NAME': BASE_DIR / 'db.sqlite3-3',
+        # 'NAME': BASE_DIR / 'db.sqlite3-2',
         # 'NAME': BASE_DIR / 'db.sqlite3-1',
         # 'NAME': BASE_DIR / 'db.sqlite3',
         }
