@@ -19,7 +19,7 @@
       {% for order in orders %}
       <tr>
         <td class="align-middle border-top-0 w-0">
-          <a href="{% url 'main:product_detail' pk=order.product.pk %}"><img src="{{ order.product.image.url }}" alt="{{ order.product.name }}"
+          <a href="{% url 'main:product_detail' pk=order.product.pk %}"><img src="{{ order.product.image|image_url }}" alt="{{ order.product.name }}"
               class="icon-shape icon-xl"></a>
 
         </td>

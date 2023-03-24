@@ -10,7 +10,7 @@
               {% if not request.GET.seller %}
               <div class="ellipsis-oneline">
                 <a href="products?seller={{ product.seller.id }}" class="text-nature">
-                  <img src="{{ product.seller.image.url }}" alt="" class="avatar avatar-sm rounded-circle">
+                  <img src="{{ product.seller.image|image_user_url }}" alt="" class="avatar avatar-sm rounded-circle">
                 {{ product.seller.name }}</a>
               </div>
               {% endif %}
@@ -18,7 +18,7 @@
               <a href="{% url 'main:product_detail' product.id %}"
                         class="text-inherit text-decoration-none">
                 <div class="text-center position-relative">
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="mb-3 img-fluid"
+                    <img src="{{ product.image|image_url }}" alt="{{ product.name }}" class="mb-3 img-fluid"
                             style="height: 200px">
                 </div>
 
@@ -62,7 +62,7 @@
       </div>
       <div class="modal-body">
         <div class="text-center position-relative">
-          <img src="{{ product.image.url }}" alt="{{ product.name }}" class="mb-3 img-fluid"
+          <img src="{{ product.image|image_url }}" alt="{{ product.name }}" class="mb-3 img-fluid"
           style="height: 200px">
         </div>
         <div class="mb-5">

@@ -1,4 +1,5 @@
 {% load static %}
+{% load custom_filters %}
 
 <div class="border-bottom ">
       <div class="bg-light py-1">
@@ -72,7 +73,7 @@
                 {% if request.user.is_authenticated %}
               <div class="dropdown">
                 <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="{{ request.user.image.url }}" alt="" class="avatar avatar-sm rounded-circle">
+                <img src="{{ request.user.image|image_user_url }}" alt="" class="avatar avatar-sm rounded-circle">
             </a>
 
             <div class="dropdown-menu dropdown-menu-end p-0 mt-3">
@@ -160,7 +161,7 @@
                 {% if request.user.is_authenticated %}
               <span class="dropdown">
                 <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="{{ request.user.image.url }}" alt="" class="avatar avatar-sm rounded-circle">
+                <img src="{{ request.user.image|image_user_url }}" alt="" class="avatar avatar-sm rounded-circle">
             </a>
 
             <div class="dropdown-menu dropdown-menu-end p-0 mt-3">

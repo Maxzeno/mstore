@@ -3,7 +3,7 @@ from django_user_agents.utils import get_user_agent
 from core.models import Category, SubCategory
 
 def popular_categories():
-	categories = Category.objects.order_by('ordered')[:12]
+	categories = Category.objects.order_by('ordered')[:8]
 	return {'categories': categories}
 
 def popular_categories_and_sub():

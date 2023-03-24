@@ -51,7 +51,7 @@
                       {% for product in products %}
                       <tr>
                         <td>
-                          <a href="{% url 'main:product_detail' pk=product.pk %}"> <img src="{{ product.image.url }}" alt=""
+                          <a href="{% url 'main:product_detail' pk=product.pk %}"> <img src="{{ product.image|image_url }}" alt=""
                               class="icon-shape icon-md"></a>
                         </td>
                         <td><a href="{% url 'main:product_detail' pk=product.pk %}" class="text-reset">{{ product.name }}</a></td>

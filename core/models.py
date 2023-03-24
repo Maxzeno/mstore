@@ -56,7 +56,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=100, blank=True, null=True)
     email = models.EmailField(unique=True)
     whatsapp_number = models.CharField(max_length=30)
-    image = models.ImageField(upload_to='images/', default='images/person.png', blank=True, null=True)
+    image = models.ImageField(upload_to='images/', blank=True, null=True)
     _password = ''
     state = models.CharField(max_length=100, blank=True, null=True)
     address = models.CharField(max_length=500, blank=True, null=True)
@@ -107,7 +107,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.CharField(max_length=100, blank=True, null=True)
-    image = models.ImageField(upload_to='images/', default='images/NA-removebg.png', blank=True, null=True)
+    image = models.ImageField(upload_to='images/', blank=True, null=True)
     ordered = models.IntegerField(default=0)
     date = models.DateTimeField(default=timezone.now)
 
@@ -121,7 +121,7 @@ class Category(models.Model):
 class SubCategory(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=100, blank=True, null=True)
-    image = models.ImageField(upload_to='images/', default='images/NA-removebg.png', blank=True, null=True)
+    image = models.ImageField(upload_to='images/', blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     ordered = models.IntegerField(default=0)
     date = models.DateTimeField(default=timezone.now)
@@ -159,7 +159,7 @@ class Product(models.Model):
     name = models.CharField(max_length=100)
     description = RichTextField(blank=True, null=True)
     state = models.CharField(max_length=100, blank=True, null=True)
-    image = models.ImageField(upload_to='images/', default='images/NA-removebg.png', blank=True, null=True)
+    image = models.ImageField(upload_to='images/', blank=True, null=True)
     sub_category = models.ForeignKey(SubCategory, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=12, decimal_places=2)
     seller = models.ForeignKey(User, on_delete=models.CASCADE)

@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
 from django.utils import timezone
+from django.core.files.uploadedfile import SimpleUploadedFile
 from faker import Faker
 from ...models import Product, SubCategory, User
 
@@ -13,11 +14,17 @@ class Command(BaseCommand):
         sub_categories = SubCategory.objects.all()
         users = User.objects.all()
 
-        images = [ f'images/product-img-{i}.jpg' for i in range(1, 20) ]
+        def create_image():
+            # create a fake image file
+            filename = fake.file_name(extension='jpg')
+            file_content = SimpleUploadedFile(filename, fake.binary(length=1024), content_type='image/jpeg')
+            return file_content
+
+        images = [ create_image() for i in range(1, 20) ]
 
         for i in range(75):
             product = Product()
-            product.name = fake.name()
+            product.name = fake.word()
             product.description = fake.text()
             product.state = fake.state()
             product.image = fake.random_element(elements=images)
@@ -29,5 +36,5 @@ class Command(BaseCommand):
             product.date = fake.date_time_this_year()
             product.save()
 
-            self.stdout.write(self.style.SUCCESS('Successfully generated products.'))
+            self.stdout.write(self.style.SUCCESS(f'Successfully generated products. {i}'))
    

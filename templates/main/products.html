@@ -30,7 +30,7 @@
               <div class="mt-3">
                 <div class="ellipsis-oneline">
                   <a href="?seller={{ seller.id }}" class="text-nature">
-                    <img src="{{ seller.image.url }}" alt="" class="avatar avatar-md rounded-circle">
+                    <img src="{{ seller.image|image_user_url}}" alt="" class="avatar avatar-md rounded-circle">
                   {{ seller.name }}</a>
                 </div>
                 <div class="mt-4">

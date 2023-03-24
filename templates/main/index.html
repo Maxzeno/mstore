@@ -1,5 +1,6 @@
 {% extends '../base.html' %}
 {% load static %}
+{% load custom_filters %}
 {% block title %}Home{% endblock %}
 {% block content %}
 <main>
@@ -46,7 +47,7 @@
             <div class="card card-product">
               <div class="card-body text-center py-8">
                 <!-- img -->
-                <img src="{{ category.image.url }}" alt="Grocery Ecommerce Template"
+                <img src="{{ category.image|image_url }}" alt="Grocery Ecommerce Template"
                   class="mb-3 img-fluid" style="height: 120px">
                 <!-- text -->
                 <div class="text-truncate">{{ category.name }}</div>
