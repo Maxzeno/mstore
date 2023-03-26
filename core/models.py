@@ -178,6 +178,21 @@ class Product(models.Model):
         return 'Not Approved'
     
 
+class Cart(models.Model):
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    date = models.DateTimeField(default=timezone.now)
+
+    def total_price(self):
+        if self.product.is_approved:
+            return self.product.price * self.quantity
+        return 0
+
+    def __str__(self):
+        return f"{self.buyer.name} - {self.product.name} x {self.quantity}"
+
+
 class Order(models.Model):
     STATUS_CHOICES = [
         ('S', 'Success'),
@@ -186,11 +201,18 @@ class Order(models.Model):
     ]
 
     id = models.CharField(primary_key=True, max_length=10, default=order_id)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True)
     buyer = models.ForeignKey(User, on_delete=models.CASCADE)
-    has_paid = models.BooleanField(default=False)
+    items = models.ManyToManyField(Cart)
+    ### price = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
+    has_paid = models.BooleanField(default=False)
     date = models.DateTimeField(default=timezone.now)
+
+    def get_total_price_now(self):
+        price = 0
+        for item in self.items:
+            price += item.total_price
+        return price
 
     def order_status(self):
         for i in self.STATUS_CHOICES:
@@ -203,8 +225,39 @@ class Order(models.Model):
             return 'Yes'
         return 'No'
 
+
     def __str__(self):
-        return self.id
+        return f"{self.id}"
+
+
+
+# class Order(models.Model):
+#     STATUS_CHOICES = [
+#         ('S', 'Success'),
+#         ('P', 'Pending'),
+#         ('C', 'Cancel'),
+#     ]
+
+#     id = models.CharField(primary_key=True, max_length=10, default=order_id)
+#     product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True)
+#     buyer = models.ForeignKey(User, on_delete=models.CASCADE)
+#     has_paid = models.BooleanField(default=False)
+#     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
+#     date = models.DateTimeField(default=timezone.now)
+
+#     def order_status(self):
+#         for i in self.STATUS_CHOICES:
+#             if i[0].upper() == self.status.upper():
+#                 return i[1]
+#         return ''
+
+#     def has_paid_status(self):
+#         if self.has_paid:
+#             return 'Yes'
+#         return 'No'
+
+#     def __str__(self):
+#         return self.id
 
 
 class Email(models.Model):

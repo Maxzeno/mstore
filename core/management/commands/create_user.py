@@ -10,8 +10,13 @@ fake = Faker()
 class Command(BaseCommand):
     help = 'Generate fake products'
 
+    def add_arguments(self, parser):
+        parser.add_argument('--num', help='Number to create', required=False)
+
     def handle(self, *args, **options):
-        for i in range(5):
+        default = 3
+        num = int(options.get('num') or default)
+        for i in range(num):
             name = fake.name()
             email = fake.email()
             password = 'emmanueZ@9'
@@ -32,3 +37,4 @@ class Command(BaseCommand):
                 is_seller=is_seller,
                 ordered=ordered,
             )
+            self.stdout.write(self.style.SUCCESS(f'Successfully created {i+1} user.'))

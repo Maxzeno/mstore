@@ -36,17 +36,17 @@
                 <span></span>
                 <nav class="mt-2 mt-md-0">
                 <ul class="pagination">
-                  <li class="page-item {% if not products.has_previous %}disabled{% endif %}">
-                    <a class="page-link" href="?page={% if products.has_previous %}{{ products.previous_page_number }}{% else %}1{% endif %}{{ url_args }}" aria-label="Previous">
+                  <li class="page-item {% if not order_product.has_previous %}disabled{% endif %}">
+                    <a class="page-link" href="?page={% if order_product.has_previous %}{{ order_product.previous_page_number }}{% else %}1{% endif %}{{ url_args }}" aria-label="Previous">
                       <!-- <i class="feather-icon icon-chevron-left"></i> -->
                       Previous
                     </a>
                   </li>
                   {% for page in page_list %}
-                  <li class="page-item "><a class="page-link  {% if page == products.number %}active{% endif %}" href="?page={{ page }}{{ url_args }}">{{ page }}</a></li>
+                  <li class="page-item "><a class="page-link  {% if page == order_product.number %}active{% endif %}" href="?page={{ page }}{{ url_args }}">{{ page }}</a></li>
                   {% endfor %}
-                  <li class="page-item {% if not products.has_next %}disabled{% endif %}">
-                    <a class="page-link" href="?page={% if products.has_next %}{{ products.next_page_number }}{% else %}{{ products.number }}{% endif %}{{ url_args }}" aria-label="Next">
+                  <li class="page-item {% if not order_product.has_next %}disabled{% endif %}">
+                    <a class="page-link" href="?page={% if order_product.has_next %}{{ order_product.next_page_number }}{% else %}{{ order_product.number }}{% endif %}{{ url_args }}" aria-label="Next">
                       <!-- <i class="feather-icon icon-chevron-right"></i> -->
                       Next
                     </a>

@@ -15,8 +15,7 @@
               </div>
               {% endif %}
 
-              <a href="{% url 'main:product_detail' product.id %}"
-                        class="text-inherit text-decoration-none">
+              <a href="{% url 'main:product_detail' pk=product.id %}" class="text-inherit text-decoration-none">
                 <div class="text-center position-relative">
                     <img src="{{ product.image|image_url }}" alt="{{ product.name }}" class="mb-3 img-fluid"
                             style="height: 200px">
@@ -41,7 +40,14 @@
                 
                 <div class="d-flex justify-content-between align-items-center mt-4">
                     <span class="text-dark ellipsis-oneline">₦{{ product.price|format_price }}</span>
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#{{ product.pk }}" class="btn btn-primary rounded-pill">Order</a>
+                    <button onclick="add_product_cart(this, '{{ product.pk }}')" class="btn btn-primary btn-sm {% if product.pk in product_in_cart %}d-none{% endif %}">
+                      <i class="bi bi-plus-lg me-1"></i>Add
+                    </button>
+
+                    <button onclick="remove_product_cart(this, '{{ product.pk }}')" class="btn btn-primary btn-sm {% if product.pk not in product_in_cart %}d-none{% endif %}">
+                      <i class="bi bi-dash-lg me-1"></i>Remove
+                    </button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -50,31 +56,3 @@
 </div>
 
 
-
-{% for product in products %}
-<div class="modal fade" id="{{ product.pk }}" tabindex="-1" aria-labelledby="{{ product.pk }}Label" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content p-4">
-      <div class="modal-header border-0">
-        <h5 class="modal-title fs-3 fw-bold" id="{{ product.pk }}Label">Order Product</h5>
-
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="text-center position-relative">
-          <img src="{{ product.image|image_url }}" alt="{{ product.name }}" class="mb-3 img-fluid"
-          style="height: 200px">
-        </div>
-        <div class="mb-5">
-            You are about to order <span class="text-primary">{{ product.name }}</span>
-          </div>
-        <button class="btn btn-primary" onclick="event.preventDefault(); this.nextElementSibling.submit();">Continue</button>
-        <form action="{% url 'core:order_create' pk=product.pk %}" method="post">
-          {% csrf_token %}
-          <input type="hidden" name="_method" value="DELETE">
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-{% endfor %}

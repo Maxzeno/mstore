@@ -6,7 +6,7 @@ from ckeditor.widgets import CKEditorWidget
 
 # from django_summernote.widgets import SummernoteWidget
 
-from .models import User, Category, SubCategory, Product, Order, Email, ContactUs
+from .models import User, Category, SubCategory, Product, Order, Email, ContactUs, Cart
 
 # Register your models here.
 
@@ -55,13 +55,22 @@ class ProductAdmin(admin.ModelAdmin):
     }
 
 
+# i think i will unregister this model so it doesn't show in the admin
+@admin.register(Cart)
+class CartAdmin(admin.ModelAdmin):
+    fields = ('buyer', 'product', 'quantity')
+    list_display = ('buyer', 'product', 'quantity', 'date')
+    search_fields = ('buyer', 'product', 'quantity')
+    list_filter = ('product', 'buyer', 'quantity', 'date')
+
+
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    fields = ('id', 'product', 'buyer', 'has_paid', 'status', 'date')
-    list_display = ('id', 'product', 'buyer', 'has_paid', 'status', 'date')
-    search_fields = ('id', 'product', 'buyer')
+    fields = ('id', 'buyer', 'items', 'status', 'has_paid')
+    list_display = ('id', 'buyer', 'status', 'has_paid', 'date')
+    search_fields = ('id', 'buyer')
     readonly_fields = ('id',)
-    list_filter = ('status', 'product', 'has_paid', 'buyer', 'date')
+    list_filter = ('status', 'items', 'has_paid', 'buyer', 'date')
 
 
 @admin.register(Email)

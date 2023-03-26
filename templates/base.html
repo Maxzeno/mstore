@@ -73,10 +73,72 @@
 <script src="{% static 'assets/js/vendors/increment-value.js' %}"></script>
 <script src="{% static 'main.js' %}"></script>
 
+<script>
+
+async function req(pk, path_name) {
+  let response = await fetch(`/${path_name}/${pk}`)
+  if (response) {
+    let data = await response.json();
+    return data;
+  }
+}
+
+
+async function add_product_cart(current, pk) {
+  let res = await req(pk, 'cart-plus')
+  if (res.ok){
+    current.classList.toggle('d-none');
+    current.nextElementSibling.classList.toggle('d-none');
+    let cart_number = document.querySelectorAll('.cart-number');
+    cart_number.forEach((e) =>{
+      e.innerText = Number(e.innerText) + 1
+    })
+  }
+}
+
+async function remove_product_cart(current, pk) {
+  let res = await req(pk, 'cart-remove')
+  if (res.ok){
+    current.classList.toggle('d-none');
+    current.previousElementSibling.classList.toggle('d-none');
+    let cart_number = document.querySelectorAll('.cart-number');
+    cart_number.forEach((e) =>{
+      e.innerText = Number(e.innerText) - 1
+    })
+  }
+}
+
+async function remove_cart(pk) {
+  let res = await req(pk, 'cart-remove')
+  if (res.ok){
+    let product = document.querySelector(`#product${pk}`);
+    product.style.display = 'none';
+
+    let cart_number = document.querySelectorAll('.cart-number');
+    cart_number.forEach((e) =>{
+      e.innerText = Number(e.innerText) - 1
+    })
+  }
+}
+
+async function plus_cart(current, pk) {
+  let res = await req(pk, 'cart-plus')
+  if (res.ok){
+    let num = Number(current.previousElementSibling.value);
+    current.previousElementSibling.value = num + 1;
+  }
+}
+
+async function minus_cart(current, pk) {
+  let res = await req(pk, 'cart-minus')
+  if (res.ok){
+    let num = Number(current.nextElementSibling.value);
+    current.nextElementSibling.value = num > 0 ? num - 1 : 0;
+  }
+}
+
+</script>
 {% block script %}{% endblock %}
 
 </body>
-
-
-<!-- Mirrored from freshcart.codescandy.com/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Mar 2023 06:55:23 GMT -->
 </html>

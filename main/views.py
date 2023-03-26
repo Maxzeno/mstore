@@ -3,10 +3,10 @@ from django.urls import reverse
 from django.views import View
 from django.db.utils import IntegrityError
 from django.contrib import messages
-from django.http import Http404, HttpResponseRedirect, QueryDict
+from django.http import Http404, HttpResponse, HttpResponseRedirect, QueryDict
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
-from core.models import Category, SubCategory, Product, User, Email, ContactUs as ContactUsModel
+from core.models import Category, SubCategory, Product, User, Email, ContactUs as ContactUsModel, Cart
 from utils import popular_categories, popular_categories_and_sub, paginate_page, is_mobile
 from .forms import EmailForm, ContactUsForm
 
@@ -21,11 +21,19 @@ def error_404(request, exception):
 
 
 class Base(View):
-	base_context = {**popular_categories()}
-
+	base_context = {**popular_categories(), 'cart_items': [], 'product_in_cart': []}
 	def get(self, request, *args, **kwargs):
+		if request.user.is_authenticated:
+			items = Cart.objects.filter(buyer=request.user, product__is_approved=True)
+			self.base_context['cart_items'] = items
+			product_in_cart = set()
+			for item in items:
+				if item.product.is_approved:
+					product_in_cart.add(item.product.pk)
+			self.base_context['product_in_cart'] = product_in_cart
+
 		data = self.get_request(request, *args, **kwargs)
-		if isinstance(data, HttpResponseRedirect):
+		if isinstance(data, (HttpResponseRedirect, HttpResponse)):
 			return data
 
 		request_obj, template, context = data
@@ -34,7 +42,7 @@ class Base(View):
 
 	def post(self, request, *args, **kwargs):
 		data = self.post_request(request, *args, **kwargs)
-		if isinstance(data, HttpResponseRedirect):
+		if isinstance(data, (HttpResponseRedirect, HttpResponse)):
 			return data
 		return render(*data)
 

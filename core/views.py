@@ -1,15 +1,63 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views import View
+from django.http import JsonResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import User, Order, Product
+from .models import User, Order, Product, Cart as CartModel
 from .forms import UserDataForm, UserPasswordForm, AddressForm
 from main.views import Base
 # Create your views here.
 
 
+class Cart(LoginRequiredMixin, Base):
+	def get_request(self, request):
+		items = CartModel.objects.filter(buyer=request.user)
+		return (request, 'core/cart.html', {'cart_items': items, 'nav_account': 'green'})
+
+
+class CartPlus(LoginRequiredMixin, Base):
+	def get_request(self, request, pk):
+		product = Product.objects.filter(pk=pk).first()
+		if not product or not product.is_approved:
+			return JsonResponse({'ok': False})
+
+		cart_item, created = CartModel.objects.get_or_create(buyer=request.user, product=product)
+		if not created:
+			cart_item.quantity += 1
+			cart_item.save()
+		return JsonResponse({'ok': True})
+
+
+class CartMinus(LoginRequiredMixin, Base):
+	def get_request(self, request, pk):
+		product = Product.objects.filter(pk=pk).first()
+		if not product:
+			return JsonResponse({'ok': False})
+
+		cart_item = CartModel.objects.filter(buyer=request.user, product=product).first()
+		if not cart_item:
+			return JsonResponse({'ok': False}) 
+		cart_item.quantity = cart_item.quantity -1 if cart_item.quantity > 0 else 0
+		cart_item.save()
+		return JsonResponse({'ok': True})
+
+
+class CartRemove(LoginRequiredMixin, Base):
+	def get_request(self, request, pk):
+		product = Product.objects.filter(pk=pk).first()
+		if not product:
+			return JsonResponse({'ok': False})
+
+		cart_item = CartModel.objects.filter(buyer=request.user, product=product).first()
+		if not cart_item:
+			return JsonResponse({'ok': False}) 
+		cart_item.delete()
+		return JsonResponse({'ok': True})
+
+
+# lots of bugs
 class OrderCreate(LoginRequiredMixin, Base):
 	def get_request(self, request, pk):
 		return redirect(reverse('core:order_detail', kwargs={'pk': pk}))
