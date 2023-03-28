@@ -58,10 +58,10 @@ class ProductAdmin(admin.ModelAdmin):
 # i think i will unregister this model so it doesn't show in the admin
 @admin.register(Cart)
 class CartAdmin(admin.ModelAdmin):
-    fields = ('buyer', 'product', 'quantity')
-    list_display = ('buyer', 'product', 'quantity', 'date')
+    fields = ('buyer', 'product', 'quantity', 'checked_out', 'price_ordered_at')
+    list_display = ('buyer', 'product', 'quantity', 'checked_out', 'price_ordered_at', 'date')
     search_fields = ('buyer', 'product', 'quantity')
-    list_filter = ('product', 'buyer', 'quantity', 'date')
+    list_filter = ('product', 'buyer', 'quantity', 'checked_out', 'date')
 
 
 @admin.register(Order)

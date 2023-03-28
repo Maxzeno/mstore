@@ -3,7 +3,7 @@ I need to implement cart and checkout functionality
 
 
 
-
+I need to redirect to login if user is not logged and try to add to cart
 
 
 

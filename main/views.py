@@ -24,7 +24,7 @@ class Base(View):
 	base_context = {**popular_categories(), 'cart_items': [], 'product_in_cart': []}
 	def get(self, request, *args, **kwargs):
 		if request.user.is_authenticated:
-			items = Cart.objects.filter(buyer=request.user, product__is_approved=True)
+			items = Cart.objects.filter(buyer=request.user, checked_out=False, product__is_approved=True)
 			self.base_context['cart_items'] = items
 			product_in_cart = set()
 			for item in items:

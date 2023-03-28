@@ -4,11 +4,11 @@ from django.apps import apps
 from django.utils import timezone
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
+from django.db.models import Q
 from django.contrib.auth.hashers import (
     check_password, is_password_usable, make_password,
 )
 from ckeditor.fields import RichTextField
-### from django_summernote.fields import SummernoteTextField
 
 
 import shortuuid
@@ -91,19 +91,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.name or self.email
 
 
-# class Address(models.Model):
-#     state = models.CharField(max_length=100, blank=True, null=True)
-#     address = models.CharField(max_length=500, blank=True, null=True)
-#     # user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     date = models.DateTimeField(default=timezone.now)
-
-#     def __str__(self):
-#         return self.state or self.address[:20]
-
-#     class Meta:
-#         verbose_name_plural = 'Addresses'
-
-
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.CharField(max_length=100, blank=True, null=True)
@@ -182,15 +169,29 @@ class Cart(models.Model):
     buyer = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
+    checked_out = models.BooleanField(default=False)
     date = models.DateTimeField(default=timezone.now)
+    price_ordered_at = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
+
+    def paid_check_out(self):
+        self.checked_out = True
+        if not self.price_ordered_at:
+            self.price_ordered_at = self.product.price
+        self.save()
 
     def total_price(self):
-        if self.product.is_approved:
-            return self.product.price * self.quantity
-        return 0
+        if self.price_ordered_at:
+            return self.price_ordered_at * self.quantity
+        return self.product.price * self.quantity
+
+
+    def checked_out_status(self):
+        if self.checked_out:
+            return 'Yes'
+        return 'No'
 
     def __str__(self):
-        return f"{self.buyer.name} - {self.product.name} x {self.quantity}"
+        return f"{self.buyer.name} - {self.product.name} x {self.quantity} - checked out: {self.checked_out_status()}"
 
 
 class Order(models.Model):
@@ -203,15 +204,23 @@ class Order(models.Model):
     id = models.CharField(primary_key=True, max_length=10, default=order_id)
     buyer = models.ForeignKey(User, on_delete=models.CASCADE)
     items = models.ManyToManyField(Cart)
-    ### price = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
     has_paid = models.BooleanField(default=False)
     date = models.DateTimeField(default=timezone.now)
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if self.has_paid:
+            print(self.items.all(), 'self.items.all()')
+            for item in self.items.all():
+                item.paid_check_out()
+
+        super().save(*args, **kwargs)
+
     def get_total_price_now(self):
         price = 0
-        for item in self.items:
-            price += item.total_price
+        for item in self.items.all():
+            price += item.total_price()
         return price
 
     def order_status(self):
@@ -225,39 +234,8 @@ class Order(models.Model):
             return 'Yes'
         return 'No'
 
-
     def __str__(self):
         return f"{self.id}"
-
-
-
-# class Order(models.Model):
-#     STATUS_CHOICES = [
-#         ('S', 'Success'),
-#         ('P', 'Pending'),
-#         ('C', 'Cancel'),
-#     ]
-
-#     id = models.CharField(primary_key=True, max_length=10, default=order_id)
-#     product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True)
-#     buyer = models.ForeignKey(User, on_delete=models.CASCADE)
-#     has_paid = models.BooleanField(default=False)
-#     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
-#     date = models.DateTimeField(default=timezone.now)
-
-#     def order_status(self):
-#         for i in self.STATUS_CHOICES:
-#             if i[0].upper() == self.status.upper():
-#                 return i[1]
-#         return ''
-
-#     def has_paid_status(self):
-#         if self.has_paid:
-#             return 'Yes'
-#         return 'No'
-
-#     def __str__(self):
-#         return self.id
 
 
 class Email(models.Model):

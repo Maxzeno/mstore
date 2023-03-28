@@ -13,7 +13,7 @@ from main.views import Base
 
 class Cart(LoginRequiredMixin, Base):
 	def get_request(self, request):
-		items = CartModel.objects.filter(buyer=request.user)
+		items = CartModel.objects.filter(buyer=request.user, checked_out=False)
 		return (request, 'core/cart.html', {'cart_items': items, 'nav_account': 'green'})
 
 
@@ -23,7 +23,7 @@ class CartPlus(LoginRequiredMixin, Base):
 		if not product or not product.is_approved:
 			return JsonResponse({'ok': False})
 
-		cart_item, created = CartModel.objects.get_or_create(buyer=request.user, product=product)
+		cart_item, created = CartModel.objects.get_or_create(buyer=request.user, product=product, checked_out=False)
 		if not created:
 			cart_item.quantity += 1
 			cart_item.save()
@@ -36,7 +36,7 @@ class CartMinus(LoginRequiredMixin, Base):
 		if not product:
 			return JsonResponse({'ok': False})
 
-		cart_item = CartModel.objects.filter(buyer=request.user, product=product).first()
+		cart_item = CartModel.objects.filter(buyer=request.user, product=product, checked_out=False).first()
 		if not cart_item:
 			return JsonResponse({'ok': False}) 
 		cart_item.quantity = cart_item.quantity -1 if cart_item.quantity > 0 else 0
@@ -50,7 +50,7 @@ class CartRemove(LoginRequiredMixin, Base):
 		if not product:
 			return JsonResponse({'ok': False})
 
-		cart_item = CartModel.objects.filter(buyer=request.user, product=product).first()
+		cart_item = CartModel.objects.filter(buyer=request.user, product=product, checked_out=False).first()
 		if not cart_item:
 			return JsonResponse({'ok': False}) 
 		cart_item.delete()
@@ -83,6 +83,8 @@ class OrderDetail(LoginRequiredMixin, Base):
 class Orders(LoginRequiredMixin, Base):
 	def get_request(self, request):
 		orders = Order.objects.filter(buyer=request.user.id)
+		for order in orders:
+			print(order.get_total_price_now())
 		return (request, 'core/orders.html', {'orders': orders, 'nav_account': 'green'})
 
 

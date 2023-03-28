@@ -40,6 +40,7 @@
                 
                 <div class="d-flex justify-content-between align-items-center mt-4">
                     <span class="text-dark ellipsis-oneline">₦{{ product.price|format_price }}</span>
+                    {% if request.user.is_authenticated %}
                     <button onclick="add_product_cart(this, '{{ product.pk }}')" class="btn btn-primary btn-sm {% if product.pk in product_in_cart %}d-none{% endif %}">
                       <i class="bi bi-plus-lg me-1"></i>Add
                     </button>
@@ -47,7 +48,15 @@
                     <button onclick="remove_product_cart(this, '{{ product.pk }}')" class="btn btn-primary btn-sm {% if product.pk not in product_in_cart %}d-none{% endif %}">
                       <i class="bi bi-dash-lg me-1"></i>Remove
                     </button>
+                    {% else %}
+                    <a href="{% url 'login:signin' %}?next={% url 'main:product_detail' pk=product.pk %}" class="btn btn-primary btn-sm {% if product.pk in product_in_cart %}d-none{% endif %}">
+                      <i class="bi bi-plus-lg me-1"></i>Add
                     </a>
+
+                    <a  href="{% url 'login:signin' %}?next={% url 'main:product_detail' pk=product.pk %}"  class="btn btn-primary btn-sm {% if product.pk not in product_in_cart %}d-none{% endif %}">
+                      <i class="bi bi-dash-lg me-1"></i>Remove
+                    </a>
+                    {% endif %}
                 </div>
             </div>
         </div>
