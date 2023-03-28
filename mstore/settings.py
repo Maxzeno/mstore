@@ -338,6 +338,7 @@ JAZZMIN_SETTINGS = {
         "core.contactus": "fas fa-phone-alt",
         "core.email": "fas fa-envelope",
         "core.order": "fas fa-shopping-cart",
+        "core.cart": "fas fa-shopping-cart",
     },
     # Icons that are used when one is not manually specified
     "default_icon_parents": "fas fa-chevron-circle-right",
