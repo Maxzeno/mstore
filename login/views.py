@@ -13,6 +13,7 @@ from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 from core import models
 
 
+
 class Signup(View):
 	def get(self, request):
 		logout(request)
@@ -42,11 +43,13 @@ class Signup(View):
 
 class ConfirmToken(View):
 	def get(self, request, user_id):
+		base_url = request.scheme + '://' + request.get_host()
+
 		user = models.User.objects.get(id=user_id)
 		s = URLSafeTimedSerializer(settings.SECRET_KEY)
 		token = s.dumps(user_id, salt='email-confirm')
 		link = request.get_host() + reverse('login:confirm-email', kwargs={'user_id': user.id, 'token':token})
-		html_body = get_template('login/template_confirm_email.html').render({'confirmation_email': link})
+		html_body = get_template('login/template_confirm_email.html').render({'confirmation_email': link, 'base_url': base_url})
 		msg = EmailMultiAlternatives('Confirmation email', f'Your confirmation link  {link}', 'nwaegunwaemmauel@gmail.com', [user.email])
 		msg.attach_alternative(html_body, "text/html")
 		msg.send()
@@ -140,6 +143,8 @@ class ForgotPassword(View):
 			'nav_link': nav_link, 'nav_value': nav_value})
 
 	def post(self, request):
+		base_url = request.scheme + '://' + request.get_host()
+
 		form = ForgotPasswordForm(request.POST)
 		if form.is_valid():
 			user = models.User.objects.filter(email=form.cleaned_data.get('email', '')).first()
@@ -147,7 +152,7 @@ class ForgotPassword(View):
 				s = URLSafeTimedSerializer(settings.SECRET_KEY)
 				token = s.dumps(user.id, salt='email-reset')
 				link = request.get_host() + reverse('login:reset-password', kwargs={'token':token})
-				html_body = get_template('login/template_reset_password.html').render({'reset_password': link})
+				html_body = get_template('login/template_reset_password.html').render({'reset_password': link, 'base_url': base_url})
 				msg = EmailMultiAlternatives('Password Reset', f'Your confirmation link  {link}', 'nwaegunwaemmauel@gmail.com', [user.email])
 				msg.attach_alternative(html_body, "text/html")
 				msg.send()
