@@ -5,6 +5,18 @@ from ckeditor.widgets import CKEditorWidget
 from core.models import SubCategory
 
 
+class DescriptionForm(forms.Form):
+	description = forms.CharField(required=False, label='', widget=forms.Textarea(attrs={
+		'placeholder':'Description', 'class': 'form-control'
+	}))
+
+	def clean_description(self):
+		description = self.cleaned_data.get('description')
+		if not description:
+			raise forms.ValidationError('Provide seller description')
+		return description
+
+
 class ProductForm(forms.Form):
 	name = forms.CharField(required=True, label='', max_length=100,  widget=forms.TextInput(attrs={
 		'placeholder':'Name', 'class': 'form-control'

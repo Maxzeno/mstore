@@ -14,7 +14,10 @@ from main.views import Base
 class Cart(LoginRequiredMixin, Base):
 	def get_request(self, request):
 		items = CartModel.objects.filter(buyer=request.user, checked_out=False)
-		return (request, 'core/cart.html', {'cart_items': items, 'nav_account': 'green'})
+		total = 0
+		for item in items:
+			total += item.total_price()
+		return (request, 'core/cart.html', {'cart_items': items, 'total': total, 'nav_account': 'green'})
 
 
 class CartPlus(LoginRequiredMixin, Base):
@@ -27,7 +30,12 @@ class CartPlus(LoginRequiredMixin, Base):
 		if not created:
 			cart_item.quantity += 1
 			cart_item.save()
-		return JsonResponse({'ok': True})
+
+			items = CartModel.objects.filter(buyer=request.user, checked_out=False)
+			total = 0
+			for item in items:
+				total += item.total_price()
+		return JsonResponse({'ok': True, 'price': cart_item.product.price, 'total': total, 'quantity': cart_item.quantity})
 
 
 class CartMinus(LoginRequiredMixin, Base):
@@ -41,7 +49,12 @@ class CartMinus(LoginRequiredMixin, Base):
 			return JsonResponse({'ok': False}) 
 		cart_item.quantity = cart_item.quantity -1 if cart_item.quantity > 0 else 0
 		cart_item.save()
-		return JsonResponse({'ok': True})
+
+		items = CartModel.objects.filter(buyer=request.user, checked_out=False)
+		total = 0
+		for item in items:
+			total += item.total_price()
+		return JsonResponse({'ok': True, 'price': cart_item.product.price, 'total': total, 'quantity': cart_item.quantity})
 
 
 class CartRemove(LoginRequiredMixin, Base):
@@ -63,11 +76,9 @@ class OrderCreate(LoginRequiredMixin, Base):
 		return redirect(reverse('core:order_detail', kwargs={'pk': pk}))
 
 	def post_request(self, request, pk):
-		product = get_object_or_404(Product, pk=pk)
-		product.ordered += 1
-		product.save()
-		order = Order.objects.create(buyer=request.user, product=product)
-		return redirect(reverse('core:order_detail', kwargs={'pk':order.pk}))
+		# body
+		# return redirect(reverse('core:order_detail', kwargs={'pk':order.pk}))
+		pass
 
 
 class OrderDetail(LoginRequiredMixin, Base):
@@ -94,12 +105,7 @@ class Address(LoginRequiredMixin, Base):
 		address_form = AddressForm({'state': user.state, 'address': user.address})
 		return (request, 'core/address.html', {'address_form': address_form, 'nav_account': 'green'})
 
-
-class UserAddress(LoginRequiredMixin, View):
-	def get(self, request):
-		return redirect(reverse('core:address'))
-
-	def post(self, request):
+	def post_request(self, request):
 		form = AddressForm(request.POST)
 		if form.is_valid():
 			user = User.objects.get(pk=request.user.id)
@@ -107,7 +113,7 @@ class UserAddress(LoginRequiredMixin, View):
 			user.address = form.cleaned_data.get('address')
 			user.save()
 			messages.success(request, 'User address updated')
-			return redirect(reverse('core:address'))
+			return (request, 'core/address.html', {'address_form': form, 'nav_account': 'green'})
 
 		messages.warning(request, 'Fill the user address form appropriately')
 		return redirect(reverse('core:address'))

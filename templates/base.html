@@ -85,9 +85,11 @@ async function req(pk, path_name) {
 
 
 async function add_product_cart(current, pk) {
+  current.classList.toggle('d-none');
+  current.nextElementSibling.nextElementSibling.classList.toggle('d-none');
   let res = await req(pk, 'cart-plus')
   if (res.ok){
-    current.classList.toggle('d-none');
+    current.nextElementSibling.nextElementSibling.classList.toggle('d-none');
     current.nextElementSibling.classList.toggle('d-none');
     let cart_number = document.querySelectorAll('.cart-number');
     cart_number.forEach((e) =>{
@@ -97,9 +99,11 @@ async function add_product_cart(current, pk) {
 }
 
 async function remove_product_cart(current, pk) {
+    current.classList.toggle('d-none');
+    current.nextElementSibling.classList.toggle('d-none');
   let res = await req(pk, 'cart-remove')
   if (res.ok){
-    current.classList.toggle('d-none');
+    current.nextElementSibling.classList.toggle('d-none');
     current.previousElementSibling.classList.toggle('d-none');
     let cart_number = document.querySelectorAll('.cart-number');
     cart_number.forEach((e) =>{
@@ -122,18 +126,31 @@ async function remove_cart(pk) {
 }
 
 async function plus_cart(current, pk) {
+  current.previousElementSibling.classList.toggle('spinner-border');
   let res = await req(pk, 'cart-plus')
   if (res.ok){
+    current.previousElementSibling.classList.toggle('spinner-border');
+
     let num = Number(current.previousElementSibling.value);
     current.previousElementSibling.value = num + 1;
+
+    current.parentElement.parentElement.nextElementSibling.firstElementChild.innerText = "$" + (res.price * res.quantity);
+
+    document.getElementById('total-price').innerText = "$" + res.total;
   }
 }
 
 async function minus_cart(current, pk) {
+  current.nextElementSibling.classList.toggle('spinner-border');
   let res = await req(pk, 'cart-minus')
   if (res.ok){
+    current.nextElementSibling.classList.toggle('spinner-border');
     let num = Number(current.nextElementSibling.value);
     current.nextElementSibling.value = num > 0 ? num - 1 : 0;
+
+    current.parentElement.parentElement.nextElementSibling.firstElementChild.innerText = "$" + (res.price * res.quantity);
+
+    document.getElementById('total-price').innerText = "$" + res.total;
   }
 }
 

@@ -46,6 +46,34 @@ class Base(View):
 			return data
 		return render(*data)
 
+	# base_context = {**popular_categories(), 'cart_items': [], 'product_in_cart': []}
+	# def body(self, request, *args, **kwargs):
+	# 	if request.user.is_authenticated:
+	# 		items = Cart.objects.filter(buyer=request.user, checked_out=False, product__is_approved=True)
+	# 		self.base_context['cart_items'] = items
+	# 		product_in_cart = set()
+	# 		for item in items:
+	# 			if item.product.is_approved:
+	# 				product_in_cart.add(item.product.pk)
+	# 		self.base_context['product_in_cart'] = product_in_cart
+
+	# 	data = self.get_request(request, *args, **kwargs)
+	# 	if isinstance(data, (HttpResponseRedirect, HttpResponse)):
+	# 		return data
+
+	# 	request_obj, template, context = data
+	# 	context.update(self.base_context)
+	# 	return render(request_obj, template, context)
+
+	# def get(self, request, *args, **kwargs):
+	# 	return self.body(request, *args, **kwargs)
+
+	# def post(self, request, *args, **kwargs):
+	# 	return self.body(request, *args, **kwargs)
+
+
+		
+
 
 class Index(Base):
 	def get_request(self, request):
@@ -68,6 +96,16 @@ class BecomeSeller(Base):
 class ProductDetail(Base):
 	def get_request(self, request, pk):
 		product = get_object_or_404(Product, pk=pk)
+		btn_disable = False
+		if not product.is_approved:
+			if not request.user.is_authenticated or product.seller != request.user:
+				raise Http404("The resource you requested does not exist")
+
+			if request.user.is_authenticated and product.seller == request.user:
+				messages.warning(request, 'The product request is not approved')
+				btn_disable = True
+
+
 		is_mobile_device = is_mobile(request)
 		if is_mobile_device:
 			no_products  = 4
@@ -78,7 +116,12 @@ class ProductDetail(Base):
 		.filter(Q(sub_category=product.sub_category) & Q(is_approved=True))\
 		.exclude(pk=product.pk).order_by('ordered')[:no_products]
 
-		return (request, 'main/product_detail.html', {'product': product, 'products': related_products,'nav_products': 'green'})
+		return (request, 'main/product_detail.html', {
+			'product': product, 
+			'products': related_products,
+			'nav_products': 'green',
+			'btn_disable': btn_disable,
+		})
 
 
 class Products(Base):

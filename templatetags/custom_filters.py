@@ -9,7 +9,7 @@ def subtract(value, arg):
 
 @register.filter(name='format_price')
 def format_number(value):
-    if not value:
+    if value is None:
         return ''
     return '{:,.2f}'.format(value)
 

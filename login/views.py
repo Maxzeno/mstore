@@ -94,10 +94,14 @@ class Signin(View):
 		logout(request)
 		form = SigninForm
 		request.session['next'] = request.GET.get('next')
+		login_cart = request.GET.get('login_cart')
 
 		nav_text = 'Don\'t have an account?'
 		nav_link = reverse('login:signup')
 		nav_value = 'Sign up'
+
+		if login_cart == 'true':
+			messages.warning(request, 'Login before you can add to cart')
 		return render(request, 'login/signin.html', {'form':form, 'nav_text': nav_text,
 			'nav_link': nav_link, 'nav_value': nav_value})
 
@@ -121,8 +125,12 @@ class Signin(View):
 
 			if user.check_password(password):
 				login(request, user)
-				if form.cleaned_data['remember']:
+				if form.cleaned_data['remember'] != 'False':
+					print('in in', form.cleaned_data['remember'], 'eeeeeeee')
 					request.session.set_expiry(5184000)  # 60 days
+				else:
+					print('in out', form.cleaned_data['remember'], 'rrrrrrrrr')
+					request.session.set_expiry(0)
 				return redirect(next_url or 'main:index')
 
 			messages.warning(request, 'Invalid login')

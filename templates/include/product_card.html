@@ -8,7 +8,7 @@
         <div class="card card-product">
             <div class="card-body">
               {% if not request.GET.seller %}
-              <div class="ellipsis-oneline">
+              <div class="ellipsis-oneline mb-3">
                 <a href="products?seller={{ product.seller.id }}" class="text-nature">
                   <img src="{{ product.seller.image|image_user_url }}" alt="" class="avatar avatar-sm rounded-circle">
                 {{ product.seller.name }}</a>
@@ -48,12 +48,17 @@
                     <button onclick="remove_product_cart(this, '{{ product.pk }}')" class="btn btn-primary btn-sm {% if product.pk not in product_in_cart %}d-none{% endif %}">
                       <i class="bi bi-dash-lg me-1"></i>Remove
                     </button>
+                    <button class="btn btn-primary btn-sm d-none">
+                      <div class="spinner-border" style="width: 19.5px; height: 19.5px;" role="status">
+                          <span class="sr-only"></span>
+                        </div>
+                    </button>
                     {% else %}
-                    <a href="{% url 'login:signin' %}?next={% url 'main:product_detail' pk=product.pk %}" class="btn btn-primary btn-sm {% if product.pk in product_in_cart %}d-none{% endif %}">
+                    <a href="{% url 'login:signin' %}?next={% url 'main:product_detail' pk=product.pk %}&login_cart=true" class="btn btn-primary btn-sm {% if product.pk in product_in_cart %}d-none{% endif %}">
                       <i class="bi bi-plus-lg me-1"></i>Add
                     </a>
 
-                    <a  href="{% url 'login:signin' %}?next={% url 'main:product_detail' pk=product.pk %}"  class="btn btn-primary btn-sm {% if product.pk not in product_in_cart %}d-none{% endif %}">
+                    <a  href="{% url 'login:signin' %}?next={% url 'main:product_detail' pk=product.pk %}&login_cart=true"  class="btn btn-primary btn-sm {% if product.pk not in product_in_cart %}d-none{% endif %}">
                       <i class="bi bi-dash-lg me-1"></i>Remove
                     </a>
                     {% endif %}

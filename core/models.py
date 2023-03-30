@@ -98,6 +98,10 @@ class Category(models.Model):
     ordered = models.IntegerField(default=0)
     date = models.DateTimeField(default=timezone.now)
 
+    def inc_order(self):
+        self.ordered += 1
+        self.save()
+
     def __str__(self):
         return self.name
 
@@ -112,6 +116,10 @@ class SubCategory(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     ordered = models.IntegerField(default=0)
     date = models.DateTimeField(default=timezone.now)
+
+    def inc_order(self):
+        self.ordered += 1
+        self.save()
 
     def __str__(self):
         return self.name
@@ -154,7 +162,9 @@ class Product(models.Model):
     is_approved = models.BooleanField(default=False)
     date = models.DateTimeField(default=timezone.now)
 
-    # DEFAULT_AUTO_FIELD = 'django.db.models.UUIDField'
+    def inc_order(self):
+        self.ordered += 1
+        self.save()
 
     def __str__(self):
         return self.name
@@ -175,14 +185,18 @@ class Cart(models.Model):
 
     def paid_check_out(self):
         self.checked_out = True
+        self.product.inc_order()
+        self.product.sub_category.inc_order()
+        self.product.sub_category.category.inc_order()
+
         if not self.price_ordered_at:
             self.price_ordered_at = self.product.price
         self.save()
 
     def total_price(self):
         if self.price_ordered_at:
-            return self.price_ordered_at * self.quantity
-        return self.product.price * self.quantity
+            return round(self.price_ordered_at * self.quantity, 2)
+        return round(self.product.price * self.quantity, 2)
 
 
     def checked_out_status(self):

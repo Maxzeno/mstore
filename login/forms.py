@@ -16,7 +16,7 @@ class SigninForm(forms.Form):
 		'placeholder':'Enter Password', 'class': 'form-control', 'id': 'fakePassword'
 		}))
 	remember = forms.CharField(required=False, label='', max_length=128, widget=forms.CheckboxInput(attrs={
-		'class': 'form-check-input', 'value': '', 'id': 'flexCheckDefault'
+		'class': 'form-check-input', 'id': 'flexCheckDefault'
 		}))
 
 

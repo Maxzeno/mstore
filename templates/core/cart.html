@@ -40,12 +40,12 @@
             <div class="col-3 col-md-4 col-lg-5">
               <!-- title -->
               <a href="{% url 'main:product_detail' pk=item.product.pk %}" class="text-inherit">
-                <h6 class="mb-0">{{ item.product.name }}</h6>
+                <h6 class="mb-0 ellipsis-oneline">{{ item.product.name }}</h6>
               </a>
               <!-- text -->
               <div class="mt-2 small lh-1"> 
                 <a style="cursor: pointer;" onclick="remove_cart('{{ item.product.pk }}')" class="text-decoration-none text-inherit"> 
-                <span class="me-md-1 me-0 align-text-bottom">
+                <span class="me-md-1 me-0 align-text-bottom d-sm-inline d-none">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
                       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                       class="feather feather-trash-2 text-success">
@@ -61,20 +61,20 @@
                 </div>
             </div>
             <!-- input group -->
-            <div class="col-4 col-md-4 col-lg-3">
+            <div class="col-3 col-md-4 col-lg-3 p-0">
               <!-- input -->
               <!-- input -->
               <form action="i need to fill this" class="input-group input-spinner  ">
                 <input onclick="minus_cart(this, '{{ item.product.pk }}')" type="button" value="-" class="btn btn-sm " data-field="quantity">
                 <input type="number" step="1" max="10" value="{{ item.quantity }}" name="quantity"
-                  class="quantity-field form-control-sm form-input   ">
+                  class="quantity-field form-control-sm form-input">
                 <input onclick="plus_cart(this, '{{ item.product.pk }}')" type="button" value="+" class="btn btn-sm " data-field="quantity">
               </form>
 
             </div>
             <!-- price -->
-            <div class="col-2 text-lg-end text-start text-md-end col-md-2">
-              <span class="fw-bold">₦{{ item.product.price|format_price }}</span>
+            <div class="col-3 text-lg-end text-start text-md-end col-md-2">
+              <span class="fw-bold">₦{{ item.total_price|format_price }}</span>
 
             </div>
           </div>
@@ -82,6 +82,9 @@
         </li>
         {% endfor %}
       </ul>
+      <div id="total-price" class="fw-bold mt-3 text-end">
+        ₦{{ total }}
+      </div>
       <!-- btn -->
       <div class="d-flex justify-content-between mt-4">
         <a href="/products" class="btn btn-primary">Continue Shopping</a>

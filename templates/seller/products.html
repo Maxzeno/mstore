@@ -41,6 +41,7 @@
                         <th>Image</th>
                         <th>Product Name</th>
                         <th>Category</th>
+                        <th>Sub Category</th>
                         <th>Price</th>
                         <th>Status</th>
                         <th>Create at</th>
@@ -55,6 +56,7 @@
                               class="icon-shape icon-md"></a>
                         </td>
                         <td><a href="{% url 'main:product_detail' pk=product.pk %}" class="text-reset">{{ product.name }}</a></td>
+                        <td>{{ product.sub_category.name }}</td>
                         <td>{{ product.sub_category.category.name }}</td>
                         <td>₦{{ product.price|format_price }}</td>
                         <td>

@@ -1,0 +1,57 @@
+{% extends '../base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block title %}Seller Description{% endblock %}
+
+{% block content %}
+ <main class="">
+      <div class="container">
+        <div class="row mb-8">
+        {% with description='active' %}
+          {% include '../include/little_seller_sidebar.html' with description=description %}
+        {% endwith %}
+          <div class="col-lg-9 col-md-8 col-12">
+          <div class="py-6 p-md-6 p-lg-10">
+            <div class="d-flex justify-content-between align-items-center pb-4 pt-md-1 pt-1">
+              <!-- heading -->
+              <h2 class="mb-0">Seller Description</h2>
+              <button class="btn btn-outline-gray-400 text-muted d-md-none btn-icon btn-sm ms-3 " type="button"
+              data-bs-toggle="offcanvas" data-bs-target="#offcanvasAccount" aria-controls="offcanvasAccount">
+              <i class="bi bi-text-indent-left fs-3"></i>
+            </button>
+            </div>
+            <div>
+              <!-- heading -->
+              <!-- <h5 class="mb-4">Seller Description</h5> -->
+              <div class="row">
+                <div class="col-lg-5">
+                  <!-- form -->
+                  <form action="{% url 'seller:description' %}" method="post">
+                    {% csrf_token %}
+                  <div class="row">
+                    <!-- input -->
+                    <div class="mb-3 col-lg-12 mt-5">
+                    <h4 class="mb-3 h5">Description</h4>
+                      {{ description_form.description }}
+                    </div>
+                   
+                    <!-- button -->
+                    <div class="mb-3">
+                      <button class="btn btn-primary">Update Details</button>
+                    </div>
+                  </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+
+{% with description='active' %}
+  {% include '../include/little_seller_modelbar.html' with description=description %}
+{% endwith %}
+
+{% endblock %}
