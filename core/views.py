@@ -26,13 +26,14 @@ class CartPlus(LoginRequiredMixin, Base):
 		if not product or not product.is_approved:
 			return JsonResponse({'ok': False})
 
+		total = 0
 		cart_item, created = CartModel.objects.get_or_create(buyer=request.user, product=product, checked_out=False)
 		if not created:
 			cart_item.quantity += 1
 			cart_item.save()
 
 			items = CartModel.objects.filter(buyer=request.user, checked_out=False)
-			total = 0
+			
 			for item in items:
 				total += item.total_price()
 		return JsonResponse({'ok': True, 'price': cart_item.product.price, 'total': total, 'quantity': cart_item.quantity})
